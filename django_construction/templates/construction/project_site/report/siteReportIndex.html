@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Site {% endblock title %}
+
+{% block content %}
+
+<!--start page wrapper -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Site Report</div>
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header font-22">Date Range Site Purchase</div>
+                    <div class="card-body">
+                        <form method="get" action="{% url 'dateRangeSiteForm' %}" >
+                            <div class="form-group row">
+                                <label for="from_date" class="col-md-4 col-form-label text-md-right font-18">From Date</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="from_date" id="from_date" class="form-control datepicker" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-3">
+                                <label for="to_date" class="col-md-4 col-form-label text-md-right font-18">To Date</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="to_date" id="to_date" class="form-control datepicker" />
+                                </div>
+                            </div>
+
+                            <div class="form-group row mt-3">
+                                <label for="status_id" class="col-md-4 col-form-label text-md-right font-18">Select Site</label>
+                                <div class="col-md-6">
+                                    <select class="form-control" name="site_id">.
+                                        <option disabled selected>Select One</option>
+                                        {% for site in sites %}
+                                            <option value="{{ site.id }}">{{site.name}}</option>
+                                        {% endfor %}                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mt-3">
+                                <div class="col-md-4 offset-md-1">
+                                    <button type="submit" class="btn btn-info" name="action" value="export">Export</button>
+                                </div>
+                                <div class="col-md-3 text-md-right">
+                                    <button type="submit" class="btn btn-primary" name="action" value="print">Print</button>
+                                </div>
+                                <div class="col-md-4 text-md-right">
+                                    <button type="submit" class="btn btn-success" name="action" value="view">View</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+<!--end page wrapper -->
+{% endblock content %}
+
+{% block scripts %}
+
+
+<script>
+
+</script>
+
+
+
+{% endblock scripts %}

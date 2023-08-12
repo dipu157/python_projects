@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %} Dashboard {% endblock title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Basic Form</div>
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="d-lg-flex align-items-center mb-4 gap-3">
+                    <div class="position-relative">
+                        <input type="text" class="form-control ps-5 radius-30" placeholder="Search Order"> <span class="position-absolute top-50 product-show translate-middle-y"><i class="bx bx-search"></i></span>
+                    </div>
+                </div>
+
+                <form method="post" class="row g-3">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="button" class="btn btn-primary" id="btnsave" value="Save">
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

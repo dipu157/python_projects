@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Site {% endblock title %}
+
+{% block content %}
+
+<!--start page wrapper -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Site</div>
+            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addSiteModal">
+                <i class="bx bxs-plus-square"></i>Add Site</button></div>
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="d-lg-flex align-items-center mb-4 gap-3">                  
+                </div>
+                <div class="table-responsive" id="siteTableId">
+                    <table id="siteTable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Contractor</th>
+                            <th>Project Name</th>
+                            <th>Area</th>
+                            <th>Land Owner</th>
+                            <th>Flat & Parking</th>
+                            <th>Project End</th>
+                            <th>Photo</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- Table rows dynamically generated in your Django view -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {% include "construction/project_site/modal/add_site.html" %}
+        {% include "construction/project_site/modal/edit_site.html" %}
+
+    </div>
+</div>
+<!--end page wrapper -->
+{% endblock content %}
+
+{% block scripts %}
+
+
+<script>
+
+$(document).ready(function() {
+    
+   // Get All Site function acll
+    fetchAllSites();
+
+    // Get All Site function
+    function fetchAllSites() {
+        axios.get("sitedata/")
+        .then(function (res) {
+            console.log(res.data);
+            $('#siteTable').DataTable({
+            "destroy": true,
+            "data": res.data,
+            "columns": [
+                { "data": "ID" },
+                { "data": "Contractor" },
+                { "data": "Name" },
+                { "data": "Area" },
+                { "data": "Land Owner" },
+                { "data": "Flat" },
+                { "data": "Date" },
+                {
+                  "data": "Photo",
+                  "render": function(data) {
+                    return '<img src="' + data + '" alt="Site Photo" width="60" height="60">';
+                    }
+                },
+                { "data": "Action" }
+            ]
+            });
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+    }
+
+
+    // Create Site
+    $("#btnsave").click(function(e) {
+        e.preventDefault();
+        console.log("Save Button Clicked !");
+
+        let form = $("#siteForm")[0];
+        let formData = new FormData(form);
+
+
+        $.ajax({
+            url: "{% url 'createSite' %}",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            processData: false, // Important: prevent jQuery from processing the data
+            contentType: false, // Important: let the browser set the content type
+            success: function(data){
+                if(data.status == "save"){
+                    toastr.success('Site Save Successfully');                   
+                    fetchAllSites();
+                    form.reset();
+                    $("#addSiteModal").modal('hide');
+                }else if(data.status == "error"){
+                    toastr.error('Data Save Error');
+                    form.reset();
+                    $("#addSiteModal").modal('hide');
+                }
+            }
+        });
+        });
+
+        // Delete Data
+    $("#siteTableId").on("click", ".btn-delete", function(e) {
+        e.preventDefault();
+        var siteId = $(this).data("sid");
+        console.log("Delete button clicked for site ID:", siteId);
+
+        Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		if (result.isConfirmed) {
+			axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            axios.defaults.xsrfCookieName = "csrftoken";
+            axios.delete("delete_site/" + siteId + "/")
+            .then(function(response) {
+                if(response.status == "success"){
+                    toastr.success('site deleted successfully');
+                    fetchAllSites();
+                }else{
+                    toastr.error('site deleted Failed');
+                    fetchAllSites();
+                }
+            })
+            .catch(function(error) {
+                console.error("Failed to delete site:", error);
+            });
+            }
+		})        
+    });
+
+    // Edit Button Clicked
+    $("#siteTableId").on("click", ".btn-edit", function(e) {
+        e.preventDefault();
+        var siteId = $(this).data("sid");
+        console.log("Edit button clicked for site ID:", siteId);
+
+        axios.get("edit_site/" + siteId + "/")
+        .then(function(response) {
+            var data = response.data;
+            console.log(data);
+            $("#siteid").val(data.id);
+            $("#ucontractorid").val(data.contractor);
+            $("#unameid").val(data.name);
+            $("#udistrictid").val(data.district);
+            $("#uareaid").val(data.area);
+            $("#uaddressid").val(data.address);
+            $("#udetailsid").val(data.details);
+            $("#ulonid").val(data.land_owner_name);
+            $("#uomid").val(data.owner_mobile);
+            $("#ufqid").val(data.flat_qty);
+            $("#upqid").val(data.parking_qty);
+            $("#usdateid").val(data.start_date);
+            $("#uendateid").val(data.end_date);
+            $("#imagePreview").attr("src", data.image);
+        })
+        .catch(function(error) {
+            console.error("Failed to edit site:", error);
+        });
+    });
+
+
+    // Update Site
+    $("#btnUpdate").click(function(e) {
+        e.preventDefault();
+        console.log("Update Button Clicked !");
+
+        let form = $("#siteEditForm")[0];
+        let formData = new FormData(form);
+
+        $.ajax({
+            url: "{% url 'updateSite' %}",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            processData: false, // Important: prevent jQuery from processing the data
+            contentType: false, // Important: let the browser set the content type
+            success: function(data){
+                if(data.status == "update"){
+                    toastr.success('Site Update Successfully');                   
+                    fetchAllSites();
+                    form.reset();
+                    $("#editSiteModal").modal('hide');
+                }else if(data.status == "error"){
+                    toastr.error('Data Save Error');
+                    form.reset();
+                    $("#editSiteModal").modal('hide');
+                }
+            }
+        });
+        });
+
+});
+</script>
+
+
+
+{% endblock scripts %}

@@ -1,0 +1,41 @@
+{% load crispy_forms_tags %}
+
+<div class="modal fade" id="editSiteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Site</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data" class="row g-3" id="siteEditForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="siteid" id="siteid" />
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ uform.contractor|as_crispy_field }}
+                            {{ uform.name|as_crispy_field }}
+                            {{ uform.district|as_crispy_field }}
+                            {{ uform.area|as_crispy_field }}
+                            {{ uform.address|as_crispy_field }}
+                            {{ uform.land_owner_name|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ uform.owner_mobile|as_crispy_field }}
+                            {{ uform.flat_qty|as_crispy_field }}
+                            {{ uform.parking_qty|as_crispy_field }}
+                            {{ uform.start_date|as_crispy_field }}
+                            {{ uform.end_date|as_crispy_field }}
+                            {{ uform.image|as_crispy_field }}
+                        </div>
+                    </div>                
+                    <img id="imagePreview" src="" alt="Contractor Image" width="100" height="100">
+                    <input type="submit" class="btn btn-primary" id="btnUpdate" value="Update">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

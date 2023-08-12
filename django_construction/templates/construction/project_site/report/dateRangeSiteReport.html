@@ -1,0 +1,147 @@
+{% load static %}
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 14pt;
+      font-weight: bold;
+      color: black;
+    }
+
+    .site-info {
+      text-align: center;
+      font-size: 12pt;
+      font-weight: bold;
+      color: black;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    table.table {
+      width: 100%;
+      background-color: #ffffff;
+    }
+
+    table.order-bank {
+      width: 100%;
+    }
+
+    table.order-bank th {
+      padding: 5px;
+      font-weight: bold;
+    }
+
+    table.order-bank td {
+      padding: 5px;
+      font-size: 9pt;
+    }
+
+    table.sign {
+      margin-top: 100px;
+      font-size: 11pt;
+      font-weight: bold;
+      color: black;
+    }
+
+    tr.row-line th {
+      border: 1px solid black;
+    }
+
+    th.first-cell {
+      text-align: left;
+      color: black;
+      font-size: 10pt;
+      font-weight: bold;
+    }
+
+    div.blank-space {
+      height: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <table border="0" cellpadding="0">
+        <tr  style="border-bottom: 1px solid black;">
+          <td style="width: 5%;"></td>
+          <td style="width: 30%;">
+            <h3>ABC Construction</h3>
+          </td>
+          <td style="width: 20%;"></td>
+          <td style="width: 45%;">
+            77/A, East Rajabazar, <br />
+            West Panthapath, Dhaka-1215
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="site-info">
+      Site Purchase Report From {{ from_date }} to {{ to_date }}<br />
+      Site Name: {{ site }}
+    </div>
+
+    <table class="table order-bank mb-5">
+      <thead>
+        <tr class="row-line">
+          <th class="first-cell">SL</th>
+          <th class="first-cell">Purchase Date</th>
+          <th class="first-cell">Purchase Code</th>
+          <th class="first-cell">Supplier</th>
+          <th class="first-cell" style="text-align: center;">Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for purchase in purchases %}
+        <tr style="border-bottom: 1px solid black;">
+          <td>{{ forloop.counter }}</td>
+          <td>{{ purchase.purchase_date }}</td>
+          <td>{{ purchase.invoice_no }}</td>
+          <td>{{ purchase.supplier }}</td>
+          <td style="text-align: center;">{{ purchase.net_payable }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td colspan="4" style="text-align: right; font-weight: bold;">Total:</td>
+          <td style="text-align: center; font-weight: bold;">
+            {{ total_amount }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="blank-space"></div>
+
+    <table class="table order-bank sign">
+      <thead>
+        <tr>
+          <th width="50%" style="text-align: left;">Prepared By(Name & Sign)</th>
+          <th width="50%" style="text-align: right;">Approved Authority</th>
+        </tr>
+      </thead>
+    </table>
+
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>

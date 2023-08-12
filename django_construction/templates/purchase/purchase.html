@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %} Purchase {% endblock title %}
+
+{% block content %}
+{% load static %}
+<!--start page wrapper -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Purchase</div>
+
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="d-lg-flex align-items-center mb-4 gap-3">                  
+                </div>
+                <form action="" method="post" accept-charset="utf-8" class="form-horizontal" id="purchaseForm">
+                    {% csrf_token %}
+                    <div class="row mb-5">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Site Name</label>
+                                {{ form.site }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Supplier Name</label>
+                                {{ form.supplier }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Invoice No</label>
+                                {{ form.invoice_no }}
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label class="control-label">Purchase Date</label>
+                                {{ form.purchase_date }}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Note</label>
+                                {{ form.detail }}
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width:15%">Product </th>
+                                <th>Stock</th>
+                                <th>Qty</th>
+                                <th>Unit Price</th>
+                                <th>Unit VAT</th>
+                                <th>Unit Disc.</th>
+                                <th>Net Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="addPurchaseItem">
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td style="text-align: right; font-weight: bold;" colspan=6>Total Amount:</td>
+                                <td>{{ form.total_amount }}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; font-weight: bold;" colspan=6>Total Vat:</td>
+                                <td>{{ form.total_vat }}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; font-weight: bold;" colspan=6>Total Discount:</td>
+                                <td>{{ form.total_discount }}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; font-weight: bold;" colspan=6>Net Payable:</td>
+                                <td>{{ form.net_payable }}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; font-weight: bold;" colspan=6>Total Paid:</td>
+                                <td>{{ form.paid_amount }}</td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: right; font-weight: bold;" colspan=6>Total Due:</td>
+                                <td>{{ form.total_due }}</td>
+
+                            </tr>
+                            <tr id="payform">
+                                <td><label class="control-label">Payment Type</label>{{ form.payment_type }}</td>
+                                <td><label class="control-label">Receiver Name</label>{{ form.receiver_name }}</td>
+                                <td><label class="control-label">Receiver Contact</label>{{ form.receiver_contact }}</td>
+                                <td><label class="control-label">Pay Date</label>{{ form.issue_date }}</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <input type="submit" id="purchasesubmit" class="btn btn-primary btn-block float-end" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end page wrapper -->
+{% endblock content %}
+
+{% block scripts %}
+
+    <script>
+
+        $('#supplierId').on('change', function(e) {
+            e.preventDefault();
+            var supp_id = $(this).val();
+            console.log(supp_id);
+            $.ajax({
+                url: "{% url 'productBySupplier' %}",
+                method: 'get',
+                data: {
+                    id: supp_id,
+                },
+                success: function(res) {
+                    $("#addPurchaseItem").html(res);
+
+                }
+            });
+        });   
+    </script>
+
+    <!--Purchase calculation-->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#payform').hide();
+            $('#purchasesubmit').hide();
+
+            $(document).on('keyup',
+                '.qty, .unit_price, .uvat, .total, .udiscount,.gtotal, .netAmnt , .netDis , .paid, .due',
+                function() {
+
+                    var rows = this.closest('#purchaseForm tr');
+                    var quantity = $(rows).find(".qty");
+                    var price = $(rows).find(".unit_price");
+                    var vat = $(rows).find(".uvat");
+                    var pdiscount = $(rows).find(".udiscount");
+
+                    var qty = parseInt($(quantity).val());
+                    var trade = parseFloat($(price).val());
+                    var vat = parseFloat($(vat).val());
+                    var discount = parseFloat($(pdiscount).val());
+                    
+                    var total_amount = 0;
+                    var total_vat = 0;
+                    var total_discount = 0;
+                    var net_payable = 0;
+
+                    
+                    if (!isNaN(qty) && qty > 0) {
+                        var rawPrice = trade + vat - discount;
+                        net_payable = qty * rawPrice;
+                        net_payable = parseFloat(net_payable).toFixed(2);
+                        var net_amount = net_payable;
+                  
+                        total_amount = parseFloat(qty * trade).toFixed(2);
+                        total_vat = parseFloat(qty * vat).toFixed(2);
+                        total_discount = parseFloat(qty * discount).toFixed(2);
+                      } else {
+                        total_amount = 0;
+                        total_vat = 0;
+                        total_discount = 0;
+                        net_payable = 0;
+                      }
+
+                    
+                    $(rows).find('[name="net_tp[]"]').val(total_amount);
+                    $(rows).find('[name="net_vat[]"]').val(total_vat);
+                    $(rows).find('[name="net_discount[]"]').val(total_discount);
+                    $(rows).find('[name="net_amount[]"]').val(net_payable);
+
+                    var sum = 0;
+                    $(".total").each(function(index) {
+                        var value = $(this).val();
+                        if (!isNaN(value) && value !== '') {
+                            sum += parseFloat(value);
+                        }
+                    });
+                    //console.log(sum);
+
+                    var tamnt = 0;
+                    $(".tamount").each(function(index) {
+                        tamnt += parseFloat($(this).val());
+                    });
+
+                    var tvat = 0;
+                    $(".tvat").each(function(index) {
+                        tvat += parseFloat($(this).val());
+                    });
+
+                    var discoun = 0;
+                    $(".tdiscount").each(function(index) {
+                        discoun += parseFloat($(this).val());
+                    });
+
+
+                    $(".gtotal").val(sum);
+                    $(".netAmnt").val(tamnt);
+                    $(".netVat").val(tvat);
+                    $(".netDis").val(discoun);
+
+                    var paid = $(rows).find(".paid");
+                    var paidval = parseInt($(paid).val());
+
+                    var netPayable = $(rows).find(".gtotal");
+                    var netAmount = $(rows).find(".netAmnt");
+                    var totalVat = $(rows).find(".netVat");
+                    var netDiscount = $(rows).find(".netDis");
+                    var netPayablev = parseInt($(".gtotal").val(sum));
+                    var netAmountv = parseInt($(".netAmnt").val(tamnt));
+                    var totalVatv = parseInt($(".netVat").val(tvat));
+                    var netDiscountv = parseInt($(".netDis").val(discoun));
+
+
+
+                    var dueval = 0;
+                    if (isNaN(paidval) == true) {
+                        dueval = 0;
+                        $('#payform').hide();
+                        $('#purchasesubmit').hide();
+                    } else {
+                        var dueval = sum - paidval;
+                        $('#purchasesubmit').show();
+                        $('#payform').show();
+                    }
+                    $(".due").val(dueval);
+                });
+        });
+    </script>
+
+       <!-- Submit For Save Purchase and Print  -->
+       <script>
+        $("#purchasesubmit").on('click', function (event) {
+            event.preventDefault();
+            var formval = $('#purchaseForm')[0];
+            var data = new FormData(formval);
+    
+            $.ajax({
+                type: "POST",
+                url: "{% url 'purchaseSave' %}",
+                data: data,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    if (response.status === "success") {
+                        toastr.success('Data saved successfully');
+                        
+                        setTimeout(function() {
+                            location.reload(true);
+                        }, 5000);
+                    } else if (response.status === "error") {
+                        alert(response.message);
+                    }
+                },
+                error: function (request, status, error) {
+                    console.log("Error:", request.responseText);
+                    // Add an alert to show the error message
+                    alert("Error saving purchase data. Please check the console for details.");
+                }
+            });
+        });
+    </script>
+
+{% endblock scripts %}

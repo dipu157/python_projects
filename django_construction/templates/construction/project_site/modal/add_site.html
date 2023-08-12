@@ -1,0 +1,39 @@
+{% load crispy_forms_tags %}
+
+<div class="modal fade" id="addSiteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Site</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data" class="row g-3" id="siteForm">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ cform.contractor|as_crispy_field }}
+                            {{ cform.name|as_crispy_field }}
+                            {{ cform.district|as_crispy_field }}
+                            {{ cform.area|as_crispy_field }}
+                            {{ cform.address|as_crispy_field }}
+                            {{ cform.land_owner_name|as_crispy_field }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ cform.owner_mobile|as_crispy_field }}
+                            {{ cform.flat_qty|as_crispy_field }}
+                            {{ cform.parking_qty|as_crispy_field }}
+                            {{ cform.start_date|as_crispy_field }}
+                            {{ cform.end_date|as_crispy_field }}
+                            {{ cform.image|as_crispy_field }}
+                        </div>
+                    </div>
+                    <input type="submit" class="btn btn-primary" id="btnsave" value="Save">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

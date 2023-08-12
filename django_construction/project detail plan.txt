@@ -1,0 +1,43 @@
+DB Table Design
+
+user -> name, email, password, userType
+
+company -> name,email,phone,address,website,chairmen
+
+category -> name,user_id,status
+
+sub_category -> name,category_id,user_id,status
+
+supplier -> company_id,name,email,phone,user_id
+
+supplier_ledger -> supplier_id, total_amount,paid,due, user
+
+product -> name,supplier,sub_category,details,in_stock,unit_price,status,user_id
+
+contractor -> company_id,name,email,phone,address,nid,type,image,user_id
+
+site -> company_id,name,district,area,address, detail,land_owner_name,owner_mobile,flat_quantity,parking_quantity,start_date,end_date,image,status,contractors
+
+purchase -> company,date,code,invoice_no,site_id,supplier_id,details,total_amount,vat,discount,net_payable,user_id
+
+purchase_details -> company_id,site_id, purchase_id,supplier_id,product_id,qty,price,vat,discount,net_amount,user_id
+
+supplier_account -> puchase_id, supplier_id, total_amount,paid,due, user
+
+supplier_payment -> puchase_id, supplier_id,payment_type, bank,check_no,issue_date,receiver_name,receiver_phone, paid_amount,user
+
+
+
+contractor_payment -> contractor_id,payment_type,bank,check_no,issue_date,receiver_name,receiver_phone,paid_amount,user
+
+other_payment -> site_id,payment_type,purpose, bank,check_no,issue_date,receiver_name,receiver_phone,paid_amount,user
+
+site_payment_details -> site_id,other_payment_id,contractor_payment_id,supplier_payment_id,total_amount,user
+
+flat_details -> site_id,flat_name,location,size,square_price,total_price
+
+customer -> name,email,phone,address,site_id,flat_details_id,account_no,no_of_installment,installment_amount,total_amount,installment_left,amount_left,handover_date,booking_date
+
+
+
+
