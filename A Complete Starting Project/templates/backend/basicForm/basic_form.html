@@ -20,6 +20,14 @@
                     </div>
                 </div>
 
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
                 <form action="{% url 'bform_add' %}" method="post" class="row g-3">
                     {% csrf_token %}
                     {{ form|crispy }}
