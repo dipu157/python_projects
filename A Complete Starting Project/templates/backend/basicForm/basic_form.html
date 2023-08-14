@@ -20,10 +20,10 @@
                     </div>
                 </div>
 
-                <form method="post" class="row g-3">
+                <form action="{% url 'bform_add' %}" method="post" class="row g-3">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <input type="button" class="btn btn-primary" id="btnsave" value="Save">
+                    <input type="submit" class="btn btn-primary" value="Save">
                 </form>
 
             </div>
