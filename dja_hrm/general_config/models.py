@@ -6,7 +6,6 @@ class Title(models.Model):
     name = models.CharField(max_length=240)
     description = models.CharField(max_length=200, blank=True, null=True)
     status = models.BooleanField(default=True)
-    user = models.ForeignKey(User, on_delete=models.RESTRICT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -19,7 +18,6 @@ class Title(models.Model):
 class Religion(models.Model):
     name = models.CharField(max_length=40)
     status = models.BooleanField(default=True)
-    user = models.ForeignKey(User, on_delete=models.RESTRICT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
