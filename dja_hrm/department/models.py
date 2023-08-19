@@ -29,6 +29,9 @@ class Department(models.Model):
     class Meta:
         db_table = 'departments'
         
+    def __str__(self):
+        return self.name
+        
 
 class Section(models.Model):
     company = models.ForeignKey(Company, on_delete=models.RESTRICT)
@@ -53,3 +56,6 @@ class Section(models.Model):
 
     class Meta:
         db_table = 'sections'
+        
+    def __str__(self):
+        return self.name
