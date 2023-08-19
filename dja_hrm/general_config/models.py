@@ -16,7 +16,7 @@ class Title(models.Model):
     def __str__(self):
         return self.name
     
-class Religions(models.Model):
+class Religion(models.Model):
     name = models.CharField(max_length=40)
     status = models.BooleanField(default=True)
     user = models.ForeignKey(User, on_delete=models.RESTRICT)
@@ -29,7 +29,7 @@ class Religions(models.Model):
     def __str__(self):
         return self.name
     
-class Banks(models.Model):
+class Bank(models.Model):
     name = models.CharField(max_length=40)
     branch_code = models.CharField(max_length=200, blank=True, null=True)
     branch_name = models.CharField(max_length=100)

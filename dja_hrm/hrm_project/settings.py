@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'account.apps.AccountConfig',
     'company.apps.CompanyConfig',
+    'general_config.apps.GeneralConfigConfig',
 
     'crispy_forms', 
     'crispy_bootstrap5',
