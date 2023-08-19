@@ -17,6 +17,9 @@ class GroupCompany(models.Model):
     status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        db_table = 'group_company'
         
     def __str__(self):
         return self.name
@@ -37,6 +40,9 @@ class Company(models.Model):
     status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        db_table = 'company'
 
     def __str__(self):
         return self.name
