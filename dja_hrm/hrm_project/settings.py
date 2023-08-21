@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'general_config.apps.GeneralConfigConfig',
     'department.apps.DepartmentConfig',
     'designation.apps.DesignationConfig',
+    'employee.apps.EmployeeConfig',
 
     'crispy_forms', 
     'crispy_bootstrap5',
