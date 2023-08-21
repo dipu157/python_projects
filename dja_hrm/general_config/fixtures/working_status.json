@@ -1,0 +1,41 @@
+[
+    {
+        "model": "general_config.Working_Status",
+        "pk": 1,
+        "fields": {
+            "company": "1",
+            "name": "Regular",
+            "short_name": "Regular",
+            "status": 1,
+            "user": 1,
+            "created_at": "2023-01-15 05:54:51",
+            "updated_at": "2023-01-15 05:54:51"
+        }
+    },
+    {
+        "model": "general_config.Working_Status",
+        "pk": 2,
+        "fields": {
+            "company": "1",
+            "name": "Provition",
+            "short_name": "Provition",
+            "status": 1,
+            "user": 1,
+            "created_at": "2023-01-15 05:54:51",
+            "updated_at": "2023-01-15 05:54:51"
+        }
+    },
+    {
+        "model": "general_config.Working_Status",
+        "pk": 3,
+        "fields": {
+            "company": "1",
+            "name": "Contractual",
+            "short_name": "Contractual",
+            "status": 1,
+            "user": 1,
+            "created_at": "2023-01-15 05:54:51",
+            "updated_at": "2023-01-15 05:54:51"
+        }
+    }
+]

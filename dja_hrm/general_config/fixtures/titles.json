@@ -1,0 +1,24 @@
+[
+    {
+        "model": "general_config.Title",
+        "pk": 1,
+        "fields": {
+            "name": "Mr.",
+            "description": " ",
+            "status": 1,
+            "created_at": "2023-01-15 05:54:51",
+            "updated_at": "2023-01-15 05:54:51"
+        }
+    },
+    {
+        "model": "general_config.Title",
+        "pk": 2,
+        "fields": {
+            "name": "Mrs.",
+            "description": " ",
+            "status": 1,
+            "created_at": "2023-01-15 05:54:51",
+            "updated_at": "2023-01-15 05:54:51"
+        }
+    }
+]
