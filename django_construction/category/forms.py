@@ -8,7 +8,6 @@ class CategoryCreateForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'id': 'nameid'}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'id': 'desid', 'rows': 3, 'cols': 1}),
-            # 'status': forms.CheckboxInput(attrs={'class': 'form-control', 'id': 'statusid'}),
         }
 
 
