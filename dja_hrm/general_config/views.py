@@ -39,7 +39,8 @@ class BankData(LoginRequiredMixin, View):
 
 class save_bankData(View):
     def post(self, request):
-        bid = request.POST.get('bid', '')
+        bid = request.POST.get('bankid', '')
+        # print(bid)
         form = BankCreateForm(request.POST or None, instance=None if bid == '' else Bank.objects.get(id=bid))
         if form.is_valid():
             bank = form.save(commit=False)
@@ -61,3 +62,20 @@ class DeleteBank(View):
             return JsonResponse({"status": "error", "message": "Bank does not exist"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
+
+
+class EditBank(View):
+    def get(self, request, bank_id):
+        try:
+            bank = Bank.objects.get(id=bank_id)
+            data = {
+                "id": bank.id,
+                "name": bank.name,
+                "branch_code": bank.branch_code,
+                "branch_name": bank.branch_name
+            }
+            return JsonResponse(data)
+        except Bank.DoesNotExist:
+            return JsonResponse({"error": "Bank does not exist"})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})

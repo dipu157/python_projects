@@ -140,6 +140,28 @@ $(document).ready(function() {
             }
 		})        
     });
+
+    // Edit Button Clicked
+    $("#bankTableId").on("click", ".btn-edit", function(e) {
+        e.preventDefault();
+        var bankId = $(this).data("bid");
+        console.log("Edit button clicked for bank ID:", bankId);
+
+        axios.get("edit_bank/" + bankId + "/")
+        .then(function(response) {
+            var data = response.data;
+            console.log(data);
+            $("#bankid").val(data.id);
+            $("#nameid").val(data.name);
+            $("#bcodeid").val(data.branch_code);
+            $("#bnameid").val(data.branch_name);
+            $("#btnsave").val("Update");
+        })
+        .catch(function(error) {
+            console.error("Failed to edit bank:", error);
+        });
+    });
+
    
 });
 </script>
