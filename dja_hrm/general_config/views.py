@@ -112,3 +112,24 @@ class DLocationHome(LoginRequiredMixin,View):
     def get(self, request):
         form = DLocationCreateForm()
         return render(request, "general_config/duty_location/dlocations.html", {'form': form})
+    
+
+class DLocationData(LoginRequiredMixin, View):
+    def get(self, request):
+        dlocations = Duty_Location.objects.order_by('-created_at')
+        print(dlocations)
+        data = []
+
+        for counter, dlocation in enumerate(dlocations, start=1):
+            data.append({
+                'ID': counter,
+                'Location': dlocation.location,
+                'Description': dlocation.description,
+                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addWStatusModal" data-wsid="{dlocation.id}"><i class="bx bxs-edit"></i></a>'
+                          f'<a class="ms-3 btn-delete" data-wsid="{dlocation.id}"><i class="bx bxs-trash"></i></a>'
+            })
+
+        if data:
+            return JsonResponse(data, safe=False)
+        else:
+            return JsonResponse({'message': 'No Record Found in Database'})

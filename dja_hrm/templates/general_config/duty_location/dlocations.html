@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Duty Location {% endblock title %}
+
+{% block content %}
+
+
+<!--start page wrapper -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Duty Location</div>
+            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addwstatusModal">
+                <i class="bx bxs-plus-square"></i>Add Duty Location</button></div>
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="d-lg-flex align-items-center mb-4 gap-3">                  
+                </div>
+                <div class="table-responsive" id="dlocationTableId">
+                    <table id="dlocationTable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Location</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- Table rows dynamically generated in your Django view -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {% include "general_config/duty_location/modal/add_dlocation.html" %}
+
+    </div>
+</div>
+<!--end page wrapper -->
+{% endblock content %}
+
+
+{% block scripts %}
+
+<script>
+
+$(document).ready(function() {
+   // Get All WStatus function call
+    fetchAllDLocation();
+
+    // Get All WStatus function
+    function fetchAllDLocation() {
+        axios.get("dlocationdata/")
+            .then(function (res) {
+                $('#dlocationTable').DataTable({
+                    "bDestroy": true,
+                    data: res.data,
+                    columns: [
+                        { data: 'ID' },
+                        { data: 'Location' },
+                        { data: 'Description' },
+                        { data: 'Action' }
+                    ]
+                });
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    }
+
+
+   
+});
+</script>
+
+{% endblock scripts %}
