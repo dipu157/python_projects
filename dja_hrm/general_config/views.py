@@ -6,8 +6,8 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
-from .models import Bank
-from .forms import BankCreateForm
+from .models import Bank, Working_Status, Duty_Location
+from .forms import BankCreateForm, WStatusCreateForm, DLocationCreateForm
 
 
 class BankHome(LoginRequiredMixin,View):
@@ -79,3 +79,36 @@ class EditBank(View):
             return JsonResponse({"error": "Bank does not exist"})
         except Exception as e:
             return JsonResponse({"error": str(e)})
+        
+
+class WStatusHome(LoginRequiredMixin,View):
+    def get(self, request):
+        form = WStatusCreateForm()
+        return render(request, "general_config/working_status/wstatus.html", {'form': form})    
+
+
+class WStatusData(LoginRequiredMixin, View):
+    def get(self, request):
+        wstatuses = Working_Status.objects.order_by('-created_at')
+        data = []
+
+        for counter, wstatus in enumerate(wstatuses, start=1):
+            data.append({
+                'ID': counter,
+                'Name': wstatus.name,
+                'Short_name': wstatus.short_name,
+                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addWStatusModal" data-wsid="{wstatus.id}"><i class="bx bxs-edit"></i></a>'
+                          f'<a class="ms-3 btn-delete" data-wsid="{wstatus.id}"><i class="bx bxs-trash"></i></a>'
+            })
+
+        if data:
+            return JsonResponse(data, safe=False)
+        else:
+            return JsonResponse({'message': 'No Record Found in Database'})
+        
+
+
+class DLocationHome(LoginRequiredMixin,View):
+    def get(self, request):
+        form = DLocationCreateForm()
+        return render(request, "general_config/duty_location/dlocations.html", {'form': form})
