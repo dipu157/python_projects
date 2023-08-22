@@ -27,11 +27,37 @@ class BankData(LoginRequiredMixin, View):
                 'Name': bank.name,
                 'Branch_code': bank.branch_code,
                 'Branch_name': bank.branch_name,
-                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addBankModal" data-pid="{bank.id}"><i class="bx bxs-edit"></i></a>'
-                          f'<a class="ms-3 btn-delete" data-pid="{bank.id}"><i class="bx bxs-trash"></i></a>'
+                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addBankModal" data-bid="{bank.id}"><i class="bx bxs-edit"></i></a>'
+                          f'<a class="ms-3 btn-delete" data-bid="{bank.id}"><i class="bx bxs-trash"></i></a>'
             })
 
         if data:
             return JsonResponse(data, safe=False)
         else:
             return JsonResponse({'message': 'No Record Found in Database'})
+        
+
+class save_bankData(View):
+    def post(self, request):
+        bid = request.POST.get('bid', '')
+        form = BankCreateForm(request.POST or None, instance=None if bid == '' else Bank.objects.get(id=bid))
+        if form.is_valid():
+            bank = form.save(commit=False)
+            bank.user = request.user
+            bank.save()
+
+            return JsonResponse({'status': 'save'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
+        
+
+class DeleteBank(View):
+    def delete(self, request, bank_id):
+        try:
+            bank = Bank.objects.get(id=bank_id)
+            bank.delete()
+            return JsonResponse({"status": "success"})
+        except Bank.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Bank does not exist"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
