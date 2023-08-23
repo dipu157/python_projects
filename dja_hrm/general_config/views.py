@@ -6,7 +6,8 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
-from .models import Bank, Working_Status, Duty_Location
+from .models import Bank, Working_Status 
+from company.models import Company
 from .forms import BankCreateForm, WStatusCreateForm, DLocationCreateForm
 
 
@@ -105,6 +106,22 @@ class WStatusData(LoginRequiredMixin, View):
             return JsonResponse(data, safe=False)
         else:
             return JsonResponse({'message': 'No Record Found in Database'})
+        
+
+
+class save_wstatusData(View):
+    def post(self, request):
+        wsid = request.POST.get('wstatusid', '')
+        # print(bid)
+        form = WStatusCreateForm(request.POST or None, instance=None if wsid == '' else Working_Status.objects.get(id=wsid))
+        if form.is_valid():
+            wstatus = form.save(commit=False)
+            wstatus.user = request.user
+            wstatus.save()
+
+            return JsonResponse({'status': 'save'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
         
 
 

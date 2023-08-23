@@ -1,0 +1,23 @@
+{% load crispy_forms_tags %}
+
+<div class="modal fade" id="addWStatusModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Working Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post" class="row g-3" id="wstatusForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="wstatusid" id="wstatusid" />
+                    {{ form|crispy }}
+                    <input type="button" class="btn btn-primary" id="btnsave" value="Save">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

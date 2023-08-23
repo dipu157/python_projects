@@ -11,7 +11,7 @@
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
             <div class="breadcrumb-title pe-3">Working Status</div>
-            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addwstatusModal">
+            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addWStatusModal">
                 <i class="bx bxs-plus-square"></i>Add Working Status</button></div>
         </div>
         <!--end breadcrumb-->
@@ -73,6 +73,38 @@ $(document).ready(function() {
                 console.log(err);
             });
     }
+
+
+    // Save Data
+    $("#btnsave").click(function(e){
+        e.preventDefault();
+        console.log("Save Button Clicked !");
+
+        let form = $("#wstatusForm")[0];
+        let formData = new FormData(form);
+
+
+        $.ajax({
+            url: "{% url 'createWStatus' %}",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            processData: false, // Important: prevent jQuery from processing the data
+            contentType: false, // Important: let the browser set the content type
+            success: function(data){
+                if(data.status == "save"){
+                    toastr.success('WStatus Save Successfully');                   
+                    fetchAllWStatus();
+                    form.reset();
+                    $("#addWStatusModal").modal('hide');
+                }else if(data.status == "error"){
+                    toastr.error('Data Save Error');
+                    form.reset();
+                    $("#addWStatusModal").modal('hide');
+                }
+            }
+        });
+        });
 
 
    
