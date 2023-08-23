@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} User Registration {% endblock title %}
+
+{% block content %}
+
+
+	<div class="wrapper">
+		<div class="d-flex align-items-center justify-content-center my-5 my-lg-0">
+			<div class="container">
+				<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2">
+					<div class="col mx-auto">
+						<div class="my-4 text-center">
+							<img src="assets/images/logo-img.png" width="180" alt="" />
+						</div>
+						<div class="card">
+							<div class="card-body">
+								<div class="border p-4 rounded">
+									<div class="text-center">
+										<h3 class="">User Registration</h3>
+									</div>
+									<div class="login-separater text-center mb-4"> <span>SIGN UP WITH EMAIL</span>
+										<hr/>
+									</div>
+									<div class="form-body">
+										<form method="post">
+                                            {{ user_form|crispy }}
+                                            {% csrf_token %}
+                                            <p><input type="submit" value="Create my account"></p>
+                                        </form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end row-->
+			</div>
+		</div>
+	</div>
+	<!--end wrapper-->
+
+	<!--Password show & hide js -->
+	<script>
+		$(document).ready(function () {
+			$("#show_hide_password a").on('click', function (event) {
+				event.preventDefault();
+				if ($('#show_hide_password input').attr("type") == "text") {
+					$('#show_hide_password input').attr('type', 'password');
+					$('#show_hide_password i').addClass("bx-hide");
+					$('#show_hide_password i').removeClass("bx-show");
+				} else if ($('#show_hide_password input').attr("type") == "password") {
+					$('#show_hide_password input').attr('type', 'text');
+					$('#show_hide_password i').removeClass("bx-hide");
+					$('#show_hide_password i').addClass("bx-show");
+				}
+			});
+		});
+	</script>
+
+{% endblock content %}
