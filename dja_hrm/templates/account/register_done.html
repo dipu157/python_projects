@@ -1,9 +1,35 @@
 {% extends "base.html" %}
-{% block title %}Welcome{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block title %} User Registration {% endblock title %}
+
 {% block content %}
- <h1>Welcome {{ new_user.first_name }}!</h1>
- <p>
- Your account has been successfully created.
- Now you can <a href="{% url 'login' %}">log in</a>.
- </p>
-{% endblock %}
+
+
+	<div class="wrapper">
+		<div class="d-flex align-items-center justify-content-center my-5 my-lg-0">
+			<div class="container">
+				<div class="row row-cols-1 row-cols-lg-2 row-cols-xl-2">
+					<div class="col mx-auto">
+						<div class="my-4 text-center">
+							<img src="assets/images/logo-img.png" width="180" alt="" />
+						</div>
+						<div class="card">
+							<div class="card-body">
+								<div class="border p-4 rounded">
+									<div class="text-center">
+										<h3 class="">Congratulations! Registration Done for {{ new_user.first_name }}</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--end row-->
+			</div>
+		</div>
+	</div>
+	<!--end wrapper-->
+
+{% endblock content %}
