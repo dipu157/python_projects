@@ -51,7 +51,7 @@ class EmpPersonal(models.Model):
 
 class EmpProfessional(models.Model):
     company = models.ForeignKey(Company, on_delete=models.RESTRICT)
-    emp_personals_id = models.ForeignKey(EmpPersonal, on_delete=models.RESTRICT)
+    emp_personals = models.ForeignKey(EmpPersonal, on_delete=models.RESTRICT)
     department = models.ForeignKey(Department, on_delete=models.RESTRICT)
     section = models.ForeignKey(Section, on_delete=models.RESTRICT)
     employee_id = models.PositiveIntegerField(unique=True)
@@ -67,7 +67,7 @@ class EmpProfessional(models.Model):
     transport_note = models.TextField(null=True, blank=True, verbose_name="Transport Instructions")
     pay_schale = models.PositiveIntegerField(default=0)
     pay_grade = models.CharField(max_length=50, null=True, blank=True)
-    working_status_id = models.ForeignKey(Working_Status, on_delete=models.RESTRICT)
+    working_status = models.ForeignKey(Working_Status, on_delete=models.RESTRICT)
     confirm_probation = models.CharField(max_length=1, default='P')
     confirm_period = models.PositiveIntegerField(default=0)
     bank = models.ForeignKey(Bank, on_delete=models.RESTRICT)
