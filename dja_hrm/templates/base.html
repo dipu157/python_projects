@@ -27,7 +27,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="#">
+					<a href="{% url 'profile_edit' %}">
 						<div class="parent-icon"><i class="bx bx-user-circle"></i>
 						</div>
 						<div class="menu-title">User Profile</div>
@@ -165,7 +165,7 @@
 							</div>
 						</a>
 						<ul class="dropdown-menu dropdown-menu-end">
-							<li><a class="dropdown-item" href="javascript:;"><i class="bx bx-user"></i><span>Profile</span></a>
+							<li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bx bx-user"></i><span>Profile</span></a>
 							</li>
 							<li><a class="dropdown-item" href="{% url 'password_change' %}"><i class="bx bx-user"></i><span>Change Password</span></a>
 							</li>
