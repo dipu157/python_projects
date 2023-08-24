@@ -18,7 +18,4 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.RESTRICT, to='company.company'),
             preserve_default=False,
         ),
-        migrations.DeleteModel(
-            name='Contact',
-        ),
     ]
