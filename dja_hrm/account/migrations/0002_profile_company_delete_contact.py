@@ -7,7 +7,6 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0014_remove_user_following'),
         ('company', '0003_alter_company_table_alter_groupcompany_table'),
         ('account', '0001_initial'),
     ]
