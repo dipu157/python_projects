@@ -126,7 +126,18 @@ class save_wstatusData(View):
             return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
         
 
-
+class DeleteWStatus(View):
+    def delete(self, request, wstatus_id):
+        try:
+            wstatus = Working_Status.objects.get(id=wstatus_id)
+            wstatus.delete()
+            return JsonResponse({"status": "success"})
+        except Working_Status.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "wstatus does not exist"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+        
+        
 class DLocationHome(LoginRequiredMixin,View):
     def get(self, request):
         form = DLocationCreateForm()

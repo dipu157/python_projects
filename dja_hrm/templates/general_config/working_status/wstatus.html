@@ -106,7 +106,40 @@ $(document).ready(function() {
         });
         });
 
+              // Delete Data
+    $("#wstatusTableId").on("click", ".btn-delete", function(e) {
+        e.preventDefault();
+        var wstatusId = $(this).data("wsid");
 
+        Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		if (result.isConfirmed) {
+			axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            axios.defaults.xsrfCookieName = "csrftoken";
+            axios.delete("delete_wstatus/" + wstatusId + "/")
+            .then(function(response) {
+                console.log(response);
+                if(response.status == 200){
+                    toastr.success('wstatus deleted successfully');
+                    fetchAllWStatus();
+                }else{
+                    toastr.error('wstatus deleted Failed');
+                    fetchAllWStatus();
+                }
+            })
+            .catch(function(error) {
+                console.error("Failed to delete wstatus:", error);
+            });
+            }
+		})        
+    });
    
 });
 </script>

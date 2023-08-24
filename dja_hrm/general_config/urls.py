@@ -13,6 +13,7 @@ urlpatterns = [
     path('wstatus/', WStatusHome.as_view(), name='wstatus'),
     path('wstatus/wstatusdata/', WStatusData.as_view(), name='wstatusdata'),
     path('wstatus/createWStatus/', save_wstatusData.as_view(), name='createWStatus'),
+    path('wstatus/delete_wstatus/<int:wstatus_id>/', DeleteWStatus.as_view(), name='delete_wstatus'),
 
 
     path('dlocation/', DLocationHome.as_view(), name='dlocation'),
