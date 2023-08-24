@@ -14,6 +14,7 @@ urlpatterns = [
     path('wstatus/wstatusdata/', WStatusData.as_view(), name='wstatusdata'),
     path('wstatus/createWStatus/', save_wstatusData.as_view(), name='createWStatus'),
     path('wstatus/delete_wstatus/<int:wstatus_id>/', DeleteWStatus.as_view(), name='delete_wstatus'),
+    path('wstatus/edit_wstatus/<int:wstatus_id>/', EditWStatus.as_view(), name='edit_wstatus'),
 
 
     path('dlocation/', DLocationHome.as_view(), name='dlocation'),

@@ -137,7 +137,22 @@ class DeleteWStatus(View):
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
         
+class EditWStatus(View):
+    def get(self, request, wstatus_id):
+        try:
+            wstatus = Working_Status.objects.get(id=wstatus_id)
+            data = {
+                "id": wstatus.id,
+                "name": wstatus.name,
+                "short_name": wstatus.short_name
+            }
+            return JsonResponse(data)
+        except Working_Status.DoesNotExist:
+            return JsonResponse({"error": "wstatus does not exist"})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})
         
+               
 class DLocationHome(LoginRequiredMixin,View):
     def get(self, request):
         form = DLocationCreateForm()

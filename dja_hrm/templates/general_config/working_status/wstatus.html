@@ -140,6 +140,26 @@ $(document).ready(function() {
             }
 		})        
     });
+
+    // Edit Button Clicked
+    $("#wstatusTableId").on("click", ".btn-edit", function(e) {
+        e.preventDefault();
+        var wstatusId = $(this).data("wsid");
+        console.log("Edit button clicked for wstatus ID:", wstatusId);
+
+        axios.get("edit_wstatus/" + wstatusId + "/")
+        .then(function(response) {
+            var data = response.data;
+            console.log(data);
+            $("#wstatusid").val(data.id);
+            $("#nameid").val(data.name);
+            $("#snameid").val(data.short_name);
+            $("#btnsave").val("Update");
+        })
+        .catch(function(error) {
+            console.error("Failed to edit wstatus:", error);
+        });
+    });
    
 });
 </script>
