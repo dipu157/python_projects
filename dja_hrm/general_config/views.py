@@ -170,7 +170,7 @@ class DLocationData(LoginRequiredMixin, View):
                 'ID': counter,
                 'Location': dlocation.location,
                 'Description': dlocation.description,
-                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addWStatusModal" data-dlid="{dlocation.id}"><i class="bx bxs-edit"></i></a>'
+                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addDLocationModal" data-dlid="{dlocation.id}"><i class="bx bxs-edit"></i></a>'
                           f'<a class="ms-3 btn-delete" data-dlid="{dlocation.id}"><i class="bx bxs-trash"></i></a>'
             })
 
@@ -183,8 +183,8 @@ class DLocationData(LoginRequiredMixin, View):
 
 class save_dlocationData(View):
     def post(self, request):
-        dlid = request.POST.get('dlocationid', '')
-        form = DLocationCreateForm(request.POST or None, instance=None if dlid == '' else Duty_Location.objects.get(id=dlid))
+        dlocid = request.POST.get('dlocationid', '')
+        form = DLocationCreateForm(request.POST or None, instance=None if dlocid == '' else Duty_Location.objects.get(id=dlocid))
         loggedInUserCompany = request.user.profile.company
         
         if form.is_valid():
@@ -208,3 +208,19 @@ class DeleteDLocation(View):
             return JsonResponse({"status": "error", "message": "dlocation does not exist"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
+        
+
+class EditDLocation(View):
+    def get(self, request, dlocation_id):
+        try:
+            dlocation = Duty_Location.objects.get(id=dlocation_id)
+            data = {
+                "id": dlocation.id,
+                "location": dlocation.location,
+                "description": dlocation.description
+            }
+            return JsonResponse(data)
+        except Duty_Location.DoesNotExist:
+            return JsonResponse({"error": "dlocation does not exist"})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})

@@ -140,6 +140,25 @@ $(document).ready(function() {
 		})        
     });
 
+    // Edit Button Clicked
+    $("#dlocationTableId").on("click", ".btn-edit", function(e) {
+        e.preventDefault();
+        var dlocationId = $(this).data("dlid");
+        console.log("Edit button clicked for dlocation ID:", dlocationId);
+
+        axios.get("edit_dlocation/" + dlocationId + "/")
+        .then(function(response) {
+            var data = response.data;
+            console.log(data);
+            $("#dlocationid").val(data.id);
+            $("#locationid").val(data.location);
+            $("#descriptionid").val(data.description);
+            $("#btnsave").val("Update");
+        })
+        .catch(function(error) {
+            console.error("Failed to edit duty location:", error);
+        });
+    });
 
    
 });
