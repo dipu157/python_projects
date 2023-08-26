@@ -170,11 +170,41 @@ class DLocationData(LoginRequiredMixin, View):
                 'ID': counter,
                 'Location': dlocation.location,
                 'Description': dlocation.description,
-                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addWStatusModal" data-wsid="{dlocation.id}"><i class="bx bxs-edit"></i></a>'
-                          f'<a class="ms-3 btn-delete" data-wsid="{dlocation.id}"><i class="bx bxs-trash"></i></a>'
+                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addWStatusModal" data-dlid="{dlocation.id}"><i class="bx bxs-edit"></i></a>'
+                          f'<a class="ms-3 btn-delete" data-dlid="{dlocation.id}"><i class="bx bxs-trash"></i></a>'
             })
 
         if data:
             return JsonResponse(data, safe=False)
         else:
             return JsonResponse({'message': 'No Record Found in Database'})
+        
+
+
+class save_dlocationData(View):
+    def post(self, request):
+        dlid = request.POST.get('dlocationid', '')
+        form = DLocationCreateForm(request.POST or None, instance=None if dlid == '' else Duty_Location.objects.get(id=dlid))
+        loggedInUserCompany = request.user.profile.company
+        
+        if form.is_valid():
+            dlocation = form.save(commit=False)
+            dlocation.user = request.user            
+            dlocation.company = loggedInUserCompany
+            dlocation.save()
+
+            return JsonResponse({'status': 'save'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
+        
+
+class DeleteDLocation(View):
+    def delete(self, request, dlocation_id):
+        try:
+            dlocation = Duty_Location.objects.get(id=dlocation_id)
+            dlocation.delete()
+            return JsonResponse({"status": "success"})
+        except Duty_Location.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "dlocation does not exist"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
