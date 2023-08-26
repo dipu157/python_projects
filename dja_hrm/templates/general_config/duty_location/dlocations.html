@@ -11,7 +11,7 @@
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
             <div class="breadcrumb-title pe-3">Duty Location</div>
-            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addwstatusModal">
+            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addDLocationModal">
                 <i class="bx bxs-plus-square"></i>Add Duty Location</button></div>
         </div>
         <!--end breadcrumb-->
@@ -73,6 +73,72 @@ $(document).ready(function() {
                 console.log(err);
             });
     }
+
+      // Save Data
+      $("#btnsave").click(function(e){
+        e.preventDefault();
+        console.log("Save Button Clicked !");
+
+        let form = $("#dlocationForm")[0];
+        let formData = new FormData(form);
+
+
+        $.ajax({
+            url: "{% url 'createDLocation' %}",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            processData: false, // Important: prevent jQuery from processing the data
+            contentType: false, // Important: let the browser set the content type
+            success: function(data){
+                if(data.status == "save"){
+                    toastr.success('Duty Location Save Successfully');                   
+                    fetchAllDLocation();
+                    form.reset();
+                    $("#addDLocationModal").modal('hide');
+                }else if(data.status == "error"){
+                    toastr.error('Data Save Error');
+                    form.reset();
+                    $("#addDLocationModal").modal('hide');
+                }
+            }
+        });
+        });
+
+         // Delete Data
+    $("#dlocationTableId").on("click", ".btn-delete", function(e) {
+        e.preventDefault();
+        var dlocationId = $(this).data("dlid");
+
+        Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		if (result.isConfirmed) {
+			axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            axios.defaults.xsrfCookieName = "csrftoken";
+            axios.delete("delete_dlocation/" + dlocationId + "/")
+            .then(function(response) {
+                console.log(response);
+                if(response.status == 200){
+                    toastr.success('Duty Location deleted successfully');
+                    fetchAllDLocation();
+                }else{
+                    toastr.error('Duty Location deleted Failed');
+                    fetchAllDLocation();
+                }
+            })
+            .catch(function(error) {
+                console.error("Failed to delete Duty Location:", error);
+            });
+            }
+		})        
+    });
 
 
    

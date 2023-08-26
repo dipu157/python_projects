@@ -19,4 +19,6 @@ urlpatterns = [
 
     path('dlocation/', DLocationHome.as_view(), name='dlocation'),
     path('dlocation/dlocationdata/', DLocationData.as_view(), name='dlocationdata'),
+    path('dlocation/createDLocation/', save_dlocationData.as_view(), name='createDLocation'),
+    path('dlocation/delete_dlocation/<int:dlocation_id>/', DeleteDLocation.as_view(), name='delete_dlocation'),
 ]
