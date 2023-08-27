@@ -8,6 +8,7 @@ urlpatterns = [
     path("",include('account.urls')),
     path("gconfig/",include('general_config.urls')),
     path("department/",include('department.urls')),
+    path("designation/",include('designation.urls')),
 ]
 
 if settings.DEBUG:
