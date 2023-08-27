@@ -7,6 +7,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("",include('account.urls')),
     path("gconfig/",include('general_config.urls')),
+    path("department/",include('department.urls')),
 ]
 
 if settings.DEBUG:
