@@ -25,7 +25,7 @@ class DesignationData(LoginRequiredMixin, View):
                 'Code': designation.designation_code,
                 'Name': designation.name,
                 'Short_name': designation.short_name,
-                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addBankModal" data-bid="{designation.id}"><i class="bx bxs-edit"></i></a>'
+                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addDesignationModal" data-bid="{designation.id}"><i class="bx bxs-edit"></i></a>'
                           f'<a class="ms-3 btn-delete" data-bid="{designation.id}"><i class="bx bxs-trash"></i></a>'
             })
 
@@ -35,3 +35,20 @@ class DesignationData(LoginRequiredMixin, View):
             return JsonResponse({'message': 'No Record Found in Database'})
         
 
+
+class save_designationData(View):
+    def post(self, request):
+        desigid = request.POST.get('desigid', '')
+        # print(bid)
+        form = DesignationCreateForm(request.POST or None, instance=None if desigid == '' else Designation.objects.get(id=desigid))
+        loggedInUserCompany = request.user.profile.company
+        
+        if form.is_valid():
+            designation = form.save(commit=False)
+            designation.user = request.user
+            designation.company = loggedInUserCompany
+            designation.save()
+
+            return JsonResponse({'status': 'save'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})

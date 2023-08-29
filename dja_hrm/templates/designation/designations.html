@@ -77,6 +77,71 @@ $(document).ready(function() {
     }
 
 
+    $("#btnsave").click(function(e){
+        e.preventDefault();
+        console.log("Save Button Clicked !");
+
+        let form = $("#designationForm")[0];
+        let formData = new FormData(form);
+
+
+        $.ajax({
+            url: "{% url 'createDesignation' %}",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            processData: false, // Important: prevent jQuery from processing the data
+            contentType: false, // Important: let the browser set the content type
+            success: function(data){
+                if(data.status == "save"){
+                    toastr.success('Designation Save Successfully');                   
+                    fetchAllDesignations();
+                    form.reset();
+                    $("#addDesignationModal").modal('hide');
+                }else if(data.status == "error"){
+                    toastr.error('Data Save Error');
+                    form.reset();
+                    $("#addDesignationModal").modal('hide');
+                }
+            }
+        });
+        });
+
+        // Delete Data
+    $("#bankTableId").on("click", ".btn-delete", function(e) {
+        e.preventDefault();
+        var bankId = $(this).data("bid");
+
+        Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		if (result.isConfirmed) {
+			axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            axios.defaults.xsrfCookieName = "csrftoken";
+            axios.delete("delete_bank/" + bankId + "/")
+            .then(function(response) {
+                console.log(response);
+                if(response.status == 200){
+                    toastr.success('Bank deleted successfully');
+                    fetchAllBanks();
+                }else{
+                    toastr.error('Bank deleted Failed');
+                    fetchAllBanks();
+                }
+            })
+            .catch(function(error) {
+                console.error("Failed to delete Bank:", error);
+            });
+            }
+		})        
+    });
+
    
 });
 </script>
