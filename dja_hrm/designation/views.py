@@ -25,8 +25,8 @@ class DesignationData(LoginRequiredMixin, View):
                 'Code': designation.designation_code,
                 'Name': designation.name,
                 'Short_name': designation.short_name,
-                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addDesignationModal" data-bid="{designation.id}"><i class="bx bxs-edit"></i></a>'
-                          f'<a class="ms-3 btn-delete" data-bid="{designation.id}"><i class="bx bxs-trash"></i></a>'
+                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addDesignationModal" data-desigid="{designation.id}"><i class="bx bxs-edit"></i></a>'
+                          f'<a class="ms-3 btn-delete" data-desigid="{designation.id}"><i class="bx bxs-trash"></i></a>'
             })
 
         if data:
@@ -52,3 +52,14 @@ class save_designationData(View):
             return JsonResponse({'status': 'save'})
         else:
             return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
+        
+class DeleteDesignation(View):
+    def delete(self, request, designation_id):
+        try:
+            designation = Designation.objects.get(id=designation_id)
+            designation.delete()
+            return JsonResponse({"status": "success"})
+        except Designation.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Designation does not exist"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})

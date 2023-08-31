@@ -108,9 +108,9 @@ $(document).ready(function() {
         });
 
         // Delete Data
-    $("#bankTableId").on("click", ".btn-delete", function(e) {
+    $("#designationTableId").on("click", ".btn-delete", function(e) {
         e.preventDefault();
-        var bankId = $(this).data("bid");
+        var desigId = $(this).data("desigid");
 
         Swal.fire({
 			title: 'Are you sure?',
@@ -124,15 +124,15 @@ $(document).ready(function() {
 		if (result.isConfirmed) {
 			axios.defaults.xsrfHeaderName = "X-CSRFToken";
             axios.defaults.xsrfCookieName = "csrftoken";
-            axios.delete("delete_bank/" + bankId + "/")
+            axios.delete("delete_designation/" + desigId + "/")
             .then(function(response) {
                 console.log(response);
                 if(response.status == 200){
-                    toastr.success('Bank deleted successfully');
-                    fetchAllBanks();
+                    toastr.success('Designation deleted successfully');
+                    fetchAllDesignations();
                 }else{
-                    toastr.error('Bank deleted Failed');
-                    fetchAllBanks();
+                    toastr.error('Designation deleted Failed');
+                    fetchAllDesignations();
                 }
             })
             .catch(function(error) {
