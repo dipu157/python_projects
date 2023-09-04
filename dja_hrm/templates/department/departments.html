@@ -142,6 +142,27 @@ $(document).ready(function() {
 		})        
     });
 
+    // Edit Button Clicked
+    $("#departmentTableId").on("click", ".btn-edit", function(e) {
+        e.preventDefault();
+        var departmentId = $(this).data("deptid");
+        console.log("Edit button clicked for dept ID:", departmentId);
+
+        axios.get("edit_department/" + departmentId + "/")
+        .then(function(response) {
+            var data = response.data;
+            console.log(data);
+            $("#departmentid").val(data.id);
+            $("#codeid").val(data.code);
+            $("#nameid").val(data.name);            
+            $("#snameid").val(data.short_name);
+            $("#btnsave").val("Update");
+        })
+        .catch(function(error) {
+            console.error("Failed to edit Department:", error);
+        });
+    });
+
 });
 </script>
 
