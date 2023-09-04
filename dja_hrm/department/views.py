@@ -37,3 +37,48 @@ class DepartmentData(LoginRequiredMixin, View):
             return JsonResponse({'message': 'No Record Found in Database'})
         
 
+
+class save_departmentData(View):
+    def post(self, request):
+        deptid = request.POST.get('departmentid', '')
+        #print(deptid)
+        form = DepartmentCreateForm(request.POST or None, instance=None if deptid == '' else Department.objects.get(id=deptid))
+        loggedInUserCompany = request.user.profile.company
+        
+        if form.is_valid():
+            department = form.save(commit=False)
+            department.user = request.user
+            department.company = loggedInUserCompany
+            department.save()
+
+            return JsonResponse({'status': 'save'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
+        
+class DeleteDepartment(View):
+    def delete(self, request, department_id):
+        try:
+            department = Department.objects.get(id=department_id)
+            department.delete()
+            return JsonResponse({"status": "success"})
+        except Department.DoesNotExist:
+            return JsonResponse({"status": "error", "message": "Department does not exist"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+        
+        
+class EditDepartment(View):
+    def get(self, request, department_id):
+        try:
+            department = Department.objects.get(id=department_id)
+            data = {
+                "id": department.id,
+                "code": department.department_code,
+                "name": department.name,      
+                "short_name": department.short_name
+            }
+            return JsonResponse(data)
+        except Department.DoesNotExist:
+            return JsonResponse({"error": "Department does not exist"})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})
