@@ -76,6 +76,37 @@ $(document).ready(function() {
             });
     }
 
+    
+    $("#btnsave").click(function(e){
+        e.preventDefault();
+        console.log("Save Button Clicked !");
+
+        let form = $("#departmentForm")[0];
+        let formData = new FormData(form);
+
+
+        $.ajax({
+            url: "{% url 'createDepartment' %}",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            processData: false, // Important: prevent jQuery from processing the data
+            contentType: false, // Important: let the browser set the content type
+            success: function(data){
+                if(data.status == "save"){
+                    toastr.success('Department Save Successfully');                   
+                    fetchAllDepartments();
+                    form.reset();
+                    $("#addDepartmentModal").modal('hide');
+                }else if(data.status == "error"){
+                    toastr.error('Data Save Error');
+                    form.reset();
+                    $("#addDepartmentModal").modal('hide');
+                }
+            }
+        });
+        });
+
 });
 </script>
 
