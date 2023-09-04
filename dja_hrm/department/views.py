@@ -25,10 +25,8 @@ class DepartmentData(LoginRequiredMixin, View):
                 'Code': department.department_code,
                 'Name': department.name,
                 'Short_name': department.short_name,
-                'Report_to': department.report_to,
-                'Headed_By': department.headed_by,
-                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addBankModal" data-bid="{department.id}"><i class="bx bxs-edit"></i></a>'
-                          f'<a class="ms-3 btn-delete" data-bid="{department.id}"><i class="bx bxs-trash"></i></a>'
+                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addDepartmentModal" data-deptid="{department.id}"><i class="bx bxs-edit"></i></a>'
+                          f'<a class="ms-3 btn-delete" data-deptid="{department.id}"><i class="bx bxs-trash"></i></a>'
             })
 
         if data:

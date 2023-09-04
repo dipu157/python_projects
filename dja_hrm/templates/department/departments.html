@@ -107,6 +107,41 @@ $(document).ready(function() {
         });
         });
 
+        // Delete Data
+    $("#departmentTableId").on("click", ".btn-delete", function(e) {
+        e.preventDefault();
+        var deptId = $(this).data("deptid");
+
+        Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		if (result.isConfirmed) {
+			axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            axios.defaults.xsrfCookieName = "csrftoken";
+            axios.delete("delete_department/" + deptId + "/")
+            .then(function(response) {
+                console.log(response);
+                if(response.status == 200){
+                    toastr.success('Department deleted successfully');
+                    fetchAllDepartments();
+                }else{
+                    toastr.error('Department deleted Failed');
+                    fetchAllDepartments();
+                }
+            })
+            .catch(function(error) {
+                console.error("Failed to delete Bank:", error);
+            });
+            }
+		})        
+    });
+
 });
 </script>
 
