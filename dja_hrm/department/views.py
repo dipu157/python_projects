@@ -80,3 +80,10 @@ class EditDepartment(View):
             return JsonResponse({"error": "Department does not exist"})
         except Exception as e:
             return JsonResponse({"error": str(e)})
+        
+
+
+class SectionHome(LoginRequiredMixin,View):
+    def get(self, request):
+        form = SectionCreateForm()
+        return render(request, "section/sections.html", {'form': form})

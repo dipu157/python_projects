@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Section {% endblock title %}
+
+{% block content %}
+
+
+<!--start page wrapper -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Section</div>
+            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addSectionModal">
+                <i class="bx bxs-plus-square"></i>Add Section</button></div>
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="d-lg-flex align-items-center mb-4 gap-3">                  
+                </div>
+                <div class="table-responsive" id="sectionTableId">
+                    <table id="sectionTable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Short Name</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- Table rows dynamically generated in your Django view -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {% include "section/modal/add_section.html" %}
+
+    </div>
+</div>
+<!--end page wrapper -->
+{% endblock content %}
+
+
+{% block scripts %}
+
+<script>
+
+$(document).ready(function() {
+   // Get All Department function call
+    fetchAllDepartments();
+
+    // Get All Department function
+    function fetchAllDepartments() {
+        axios.get("departmentdata/")
+            .then(function (res) {
+                $('#departmentTable').DataTable({
+                    "bDestroy": true,
+                    data: res.data,
+                    columns: [
+                        { data: 'ID' },
+                        { data: 'Code' },
+                        { data: 'Name' },
+                        { data: 'Short_name' },
+                        { data: 'Action' }
+                    ]
+                });
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    }
+
+    
+    $("#btnsave").click(function(e){
+        e.preventDefault();
+        console.log("Save Button Clicked !");
+
+        let form = $("#departmentForm")[0];
+        let formData = new FormData(form);
+
+
+        $.ajax({
+            url: "{% url 'createDepartment' %}",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            processData: false, // Important: prevent jQuery from processing the data
+            contentType: false, // Important: let the browser set the content type
+            success: function(data){
+                if(data.status == "save"){
+                    toastr.success('Department Save Successfully');                   
+                    fetchAllDepartments();
+                    form.reset();
+                    $("#addDepartmentModal").modal('hide');
+                }else if(data.status == "error"){
+                    toastr.error('Data Save Error');
+                    form.reset();
+                    $("#addDepartmentModal").modal('hide');
+                }
+            }
+        });
+        });
+
+        // Delete Data
+    $("#departmentTableId").on("click", ".btn-delete", function(e) {
+        e.preventDefault();
+        var deptId = $(this).data("deptid");
+
+        Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		if (result.isConfirmed) {
+			axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            axios.defaults.xsrfCookieName = "csrftoken";
+            axios.delete("delete_department/" + deptId + "/")
+            .then(function(response) {
+                console.log(response);
+                if(response.status == 200){
+                    toastr.success('Department deleted successfully');
+                    fetchAllDepartments();
+                }else{
+                    toastr.error('Department deleted Failed');
+                    fetchAllDepartments();
+                }
+            })
+            .catch(function(error) {
+                console.error("Failed to delete Bank:", error);
+            });
+            }
+		})        
+    });
+
+    // Edit Button Clicked
+    $("#departmentTableId").on("click", ".btn-edit", function(e) {
+        e.preventDefault();
+        var departmentId = $(this).data("deptid");
+        console.log("Edit button clicked for dept ID:", departmentId);
+
+        axios.get("edit_department/" + departmentId + "/")
+        .then(function(response) {
+            var data = response.data;
+            console.log(data);
+            $("#departmentid").val(data.id);
+            $("#codeid").val(data.code);
+            $("#nameid").val(data.name);            
+            $("#snameid").val(data.short_name);
+            $("#btnsave").val("Update");
+        })
+        .catch(function(error) {
+            console.error("Failed to edit Department:", error);
+        });
+    });
+
+});
+</script>
+
+{% endblock scripts %}
