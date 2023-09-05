@@ -6,7 +6,7 @@ from django.http import JsonResponse
 
 from company.models import Company
 from .models import Department, Section
-from .forms import DepartmentCreateForm
+from .forms import DepartmentCreateForm, SectionCreateForm
 
 class DepartmentHome(LoginRequiredMixin,View):
     def get(self, request):
@@ -87,3 +87,25 @@ class SectionHome(LoginRequiredMixin,View):
     def get(self, request):
         form = SectionCreateForm()
         return render(request, "section/sections.html", {'form': form})
+    
+
+class SectionData(LoginRequiredMixin, View):
+    def get(self, request):
+        sections = Section.objects.order_by('-created_at')
+        data = []
+
+        for counter, section in enumerate(sections, start=1):
+            data.append({
+                'ID': counter,
+                'Code': section.section_code,
+                'Name': section.name,
+                'Short_name': section.short_name,
+                'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addSectionModal" data-secid="{section.id}"><i class="bx bxs-edit"></i></a>'
+                          f'<a class="ms-3 btn-delete" data-secid="{section.id}"><i class="bx bxs-trash"></i></a>'
+            })
+
+        if data:
+            return JsonResponse(data, safe=False)
+        else:
+            return JsonResponse({'message': 'No Record Found in Database'})
+      

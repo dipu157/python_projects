@@ -10,7 +10,7 @@
     <div class="page-content">
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Section</div>
+            <div class="breadcrumb-title pe-3">Section {{ a }}</div>
             <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addSectionModal">
                 <i class="bx bxs-plus-square"></i>Add Section</button></div>
         </div>
@@ -53,13 +53,13 @@
 
 $(document).ready(function() {
    // Get All Department function call
-    fetchAllDepartments();
+    fetchAllSections();
 
     // Get All Department function
-    function fetchAllDepartments() {
-        axios.get("departmentdata/")
+    function fetchAllSections() {
+        axios.get("sectiondata/")
             .then(function (res) {
-                $('#departmentTable').DataTable({
+                $('#sectionTable').DataTable({
                     "bDestroy": true,
                     data: res.data,
                     columns: [
