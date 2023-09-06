@@ -81,12 +81,12 @@ $(document).ready(function() {
         e.preventDefault();
         console.log("Save Button Clicked !");
 
-        let form = $("#departmentForm")[0];
+        let form = $("#sectionForm")[0];
         let formData = new FormData(form);
 
 
         $.ajax({
-            url: "{% url 'createDepartment' %}",
+            url: "{% url 'createSection' %}",
             method: "POST",
             data: formData,
             dataType: "json",
@@ -94,14 +94,14 @@ $(document).ready(function() {
             contentType: false, // Important: let the browser set the content type
             success: function(data){
                 if(data.status == "save"){
-                    toastr.success('Department Save Successfully');                   
-                    fetchAllDepartments();
+                    toastr.success('Section Save Successfully');                   
+                    fetchAllSections();
                     form.reset();
-                    $("#addDepartmentModal").modal('hide');
+                    $("#addSectionModal").modal('hide');
                 }else if(data.status == "error"){
                     toastr.error('Data Save Error');
                     form.reset();
-                    $("#addDepartmentModal").modal('hide');
+                    $("#addSectionModal").modal('hide');
                 }
             }
         });

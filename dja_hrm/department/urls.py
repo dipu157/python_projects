@@ -12,4 +12,5 @@ urlpatterns = [
 
     path('section/', SectionHome.as_view(), name='section'),
     path('section/sectiondata/', SectionData.as_view(), name='sectiondata'),
+    path('section/createSection/', save_sectionData.as_view(), name='createSection'),
 ]

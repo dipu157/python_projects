@@ -108,4 +108,22 @@ class SectionData(LoginRequiredMixin, View):
             return JsonResponse(data, safe=False)
         else:
             return JsonResponse({'message': 'No Record Found in Database'})
-      
+    
+    
+
+class save_sectionData(View):
+    def post(self, request):
+        secid = request.POST.get('sectionid', '')
+        #print(deptid)
+        form = SectionCreateForm(request.POST or None, instance=None if secid == '' else Section.objects.get(id=secid))
+        loggedInUserCompany = request.user.profile.company
+        
+        if form.is_valid():
+            section = form.save(commit=False)
+            section.user = request.user
+            section.company = loggedInUserCompany
+            section.save()
+
+            return JsonResponse({'status': 'save'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
