@@ -97,6 +97,7 @@ class SectionData(LoginRequiredMixin, View):
         for counter, section in enumerate(sections, start=1):
             data.append({
                 'ID': counter,
+                'Department': section.department.name,
                 'Code': section.section_code,
                 'Name': section.name,
                 'Short_name': section.short_name,
@@ -127,3 +128,21 @@ class save_sectionData(View):
             return JsonResponse({'status': 'save'})
         else:
             return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
+        
+
+class EditSection(View):
+    def get(self, request, section_id):
+        try:
+            section = Section.objects.get(id=section_id)
+            data = {
+                "id": section.id,
+                "department": section.department.name,
+                "code": section.section_code,
+                "name": section.name,      
+                "short_name": section.short_name
+            }
+            return JsonResponse(data)
+        except Section.DoesNotExist:
+            return JsonResponse({"error": "Section does not exist"})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})

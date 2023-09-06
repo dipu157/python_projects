@@ -95,7 +95,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': '33133',
         'HOST': 'localhost',  # Or your MySQL host IP address
-        'PORT': '3308',       # Or your MySQL port
+        'PORT': '3306',       # Or your MySQL port
     }
 }
 
