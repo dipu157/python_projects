@@ -18,7 +18,7 @@ class EmpPersonalAdmin(admin.ModelAdmin):
 
 @admin.register(EmpProfessional)
 class EmpProfessionalAdmin(admin.ModelAdmin):
-    list_display = ['emp_personals_id','department', 'employee_id','pf_no', 'designation','joining_date','working_status_id']
+    list_display = ['emp_personal','department', 'employee_id','pf_no', 'designation','joining_date','working_status_id']
     search_fields = ['department', 'designation','working_status_id']
     exclude = ['user'] 
 

@@ -43,7 +43,7 @@ class EmpPersonal(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'emp_personals'
+        db_table = 'emp_personal'
 
     def __str__(self):
         return self.full_name
@@ -51,7 +51,7 @@ class EmpPersonal(models.Model):
 
 class EmpProfessional(models.Model):
     company = models.ForeignKey(Company, on_delete=models.RESTRICT)
-    emp_personals = models.ForeignKey(EmpPersonal, on_delete=models.RESTRICT)
+    emp_personal = models.ForeignKey(EmpPersonal, on_delete=models.RESTRICT)
     department = models.ForeignKey(Department, on_delete=models.RESTRICT)
     section = models.ForeignKey(Section, on_delete=models.RESTRICT)
     employee_id = models.PositiveIntegerField(unique=True)
@@ -79,8 +79,8 @@ class EmpProfessional(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'emp_professionals'
+        db_table = 'emp_professional'
 
     def __str__(self):
-        return self.emp_personals_id
+        return self.emp_personal.full_name
 
