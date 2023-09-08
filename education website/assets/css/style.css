@@ -725,7 +725,7 @@ marquee{
   margin-left: -1px;
 }
 .footer{
-  background: #444;
+  background: #185a34;
   color: #fff;
 }
 .footer p{
@@ -797,13 +797,15 @@ marquee{
   font-size: 15px;
 }
 .footer .bottom-bar{
-  background: #2b2b2b;
+  background: #043702;
   padding: 5px 0;
+  border-radius: 5px;
 }
 .footer .bottom-bar .copyright{
-  font-size: 11px;
+  font-size: 15px;
   color: #dcdcdc;
   line-height: 3;
+  text-align: right;
 }
 .footer .bottom-bar .copyright a:hover{
   color: #84aac9;
