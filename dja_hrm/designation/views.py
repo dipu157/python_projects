@@ -8,7 +8,7 @@ from company.models import Company
 from .models import Designation
 from .forms import DesignationCreateForm
 
-class DesignationtHome(LoginRequiredMixin,View):
+class DesignationHome(LoginRequiredMixin,View):
     def get(self, request):
         form = DesignationCreateForm()
         return render(request, "designation/designations.html", {'form': form})

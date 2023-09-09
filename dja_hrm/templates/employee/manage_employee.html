@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Designation {% endblock title %}
+
+{% block content %}
+
+
+<!--start page wrapper -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Designation</div>
+            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addDesignationModal">
+                <i class="bx bxs-plus-square"></i>Add Designation</button></div>
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="d-lg-flex align-items-center mb-4 gap-3">                  
+                </div>
+                <div class="table-responsive" id="designationTableId">
+                    <table id="designationTable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Employee Id</th>
+                            <th>Department</th>
+                            <th>Designation</th>
+                            <th>Joining Date</th>
+                            <th>Working Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- Table rows dynamically generated in your Django view -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {% include "designation/modal/add_designation.html" %}
+
+    </div>
+</div>
+<!--end page wrapper -->
+{% endblock content %}
+
+
+{% block scripts %}
+
+<script>
+
+$(document).ready(function() {
+   // Get All Designation function call
+    fetchAllDesignations();
+
+    // Get All Designation function
+    function fetchAllDesignations() {
+        axios.get("designationdata/")
+            .then(function (res) {
+                $('#designationTable').DataTable({
+                    "bDestroy": true,
+                    data: res.data,
+                    columns: [
+                        { data: 'ID' },
+                        { data: 'FullName' },
+                        { data: 'EmpId' },
+                        { data: 'Department' },
+                        { data: 'Designation' },
+                        { data: 'Joining_Date' },
+                        { data: 'Working_Status' },
+                        { data: 'Action' }
+                    ]
+                });
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    }
+
+
+    $("#btnsave").click(function(e){
+        e.preventDefault();
+        console.log("Save Button Clicked !");
+
+        let form = $("#designationForm")[0];
+        let formData = new FormData(form);
+
+
+        $.ajax({
+            url: "{% url 'createDesignation' %}",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            processData: false, // Important: prevent jQuery from processing the data
+            contentType: false, // Important: let the browser set the content type
+            success: function(data){
+                if(data.status == "save"){
+                    toastr.success('Designation Save Successfully');                   
+                    fetchAllDesignations();
+                    form.reset();
+                    $("#addDesignationModal").modal('hide');
+                }else if(data.status == "error"){
+                    toastr.error('Data Save Error');
+                    form.reset();
+                    $("#addDesignationModal").modal('hide');
+                }
+            }
+        });
+        });
+
+        // Delete Data
+    $("#designationTableId").on("click", ".btn-delete", function(e) {
+        e.preventDefault();
+        var desigId = $(this).data("desigid");
+
+        Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		if (result.isConfirmed) {
+			axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            axios.defaults.xsrfCookieName = "csrftoken";
+            axios.delete("delete_designation/" + desigId + "/")
+            .then(function(response) {
+                console.log(response);
+                if(response.status == 200){
+                    toastr.success('Designation deleted successfully');
+                    fetchAllDesignations();
+                }else{
+                    toastr.error('Designation deleted Failed');
+                    fetchAllDesignations();
+                }
+            })
+            .catch(function(error) {
+                console.error("Failed to delete Bank:", error);
+            });
+            }
+		})        
+    });
+
+    // Edit Button Clicked
+    $("#designationTableId").on("click", ".btn-edit", function(e) {
+        e.preventDefault();
+        var designationId = $(this).data("desigid");
+        console.log("Edit button clicked for desig ID:", designationId);
+
+        axios.get("edit_designation/" + designationId + "/")
+        .then(function(response) {
+            var data = response.data;
+            console.log(data);
+            $("#designationid").val(data.id);
+            $("#codeid").val(data.designation_code);
+            $("#nameid").val(data.name);            
+            $("#snameid").val(data.short_name);
+            $("#btnsave").val("Update");
+        })
+        .catch(function(error) {
+            console.error("Failed to edit bank:", error);
+        });
+    });
+
+   
+});
+</script>
+
+{% endblock scripts %}

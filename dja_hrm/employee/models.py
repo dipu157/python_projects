@@ -6,7 +6,6 @@ from department.models import Department, Section
 from designation.models import Designation
 
 class EmpPersonal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.RESTRICT)
     company = models.ForeignKey(Company, on_delete=models.RESTRICT)
     title = models.ForeignKey(Title, on_delete=models.RESTRICT)
     religion = models.ForeignKey(Religion, on_delete=models.RESTRICT)
@@ -39,6 +38,7 @@ class EmpPersonal(models.Model):
     national_id = models.CharField(max_length=20, null=True, blank=True)
     is_printed = models.BooleanField(default=False)
     status = models.BooleanField(default=True)
+    user = models.ForeignKey(User, on_delete=models.RESTRICT)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
