@@ -26,7 +26,7 @@ class EmployeeData(LoginRequiredMixin, View):
                 'Department': employee.department.name,
                 'Designation': employee.designation.name,
                 'Joining_Date': employee.joining_date,
-                'Working_Status': employee.working_status,
+                'Working_Status': employee.working_status.name,
                 'Action': f'<a class="btn-edit" data-bs-toggle="modal" data-bs-target="#addDesignationModal" data-desigid="{employee.id}"><i class="bx bxs-edit"></i></a>'
                           f'<a class="ms-3 btn-delete" data-desigid="{employee.id}"><i class="bx bxs-trash"></i></a>'
             })
