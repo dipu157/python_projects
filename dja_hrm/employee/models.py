@@ -69,6 +69,20 @@ class EmpPersonal(models.Model):
     
 
 class EmpProfessional(models.Model):
+
+    BOOL_CHOICES = (
+        ('', 'Select One'),
+        ('1', 'Yes'),
+        ('0', 'No'),
+    )
+
+    CONFIRMPERIOD_CHOICES = (
+        ('3', 'Three Month'),
+        ('6', 'Six Month'),
+        ('12', 'One Year'),
+    )
+
+
     company = models.ForeignKey(Company, on_delete=models.RESTRICT)
     emp_personal = models.ForeignKey(EmpPersonal, on_delete=models.RESTRICT)
     department = models.ForeignKey(Department, on_delete=models.RESTRICT)

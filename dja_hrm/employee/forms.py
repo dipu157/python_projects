@@ -1,5 +1,5 @@
 from django import forms
-from .models import EmpPersonal
+from .models import EmpPersonal,EmpProfessional
 
 class EmpPersonalCreateForm(forms.ModelForm):
     class Meta:
@@ -23,4 +23,26 @@ class EmpPersonalCreateForm(forms.ModelForm):
             'blood_group': forms.Select(choices=EmpPersonal.BLOOD_GROUP_CHOICES, attrs={'class': 'form-control', 'id': 'blood_groupid'}),
             'last_education': forms.TextInput(attrs={'class': 'form-control', 'id': 'last_educationid'}),    
             'national_id': forms.TextInput(attrs={'class': 'form-control', 'id': 'nationalidid'}),
+        }
+
+
+class EmpProfessionalCreateForm(forms.ModelForm):
+    class Meta:
+        model = EmpProfessional
+        fields = ['emp_personal', 'department', 'section', 'employee_id', 'pf_no', 'designation', 
+                  'joining_date', 'card_no', 'overtime', 'transport', 'working_status', 'confirm_period', 'bank']
+        widgets = {
+            'emp_personal': forms.Select(attrs={'class': 'form-control', 'id': 'emp_personalid'}),
+            'department': forms.Select(attrs={'class': 'form-control', 'id': 'departmentid'}),
+            'section': forms.Select(attrs={'class': 'form-control', 'id': 'sectionid'}),
+            'employee_id': forms.TextInput(attrs={'class': 'form-control', 'id': 'employeeid_id'}),
+            'pf_no': forms.TextInput(attrs={'class': 'form-control', 'id': 'pf_noid'}),
+            'designation': forms.Select(attrs={'class': 'form-control', 'id': 'designationid'}),
+            'joining_date': forms.DateInput(attrs={'class': 'form-control datepicker', 'id': 'joining_dateid'}),
+            'card_no': forms.TextInput(attrs={'class': 'form-control', 'id': 'card_noid'}),
+            'overtime': forms.Select(choices=EmpProfessional.BOOL_CHOICES, attrs={'class': 'form-control', 'id': 'overtimeid'}),
+            'transport': forms.Select(choices=EmpProfessional.BOOL_CHOICES, attrs={'class': 'form-control', 'id': 'transportid'}),
+            'working_status': forms.Select(attrs={'class': 'form-control', 'id': 'working_statusid'}),
+            'bank': forms.Select(attrs={'class': 'form-control', 'id': 'bankid'}),
+            'confirm_period': forms.Select(choices=EmpProfessional.CONFIRMPERIOD_CHOICES, attrs={'class': 'form-control', 'id': 'cperiodid'}),
         }

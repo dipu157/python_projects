@@ -22,49 +22,49 @@
                             <form method="post" class="row g-3" id="emp_personalForm">
                                 {% csrf_token %}
                                 <div class="col-md-6">
-                                    {{ form.title|as_crispy_field }}
+                                    {{ formPersonal.title|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.religion|as_crispy_field }}
+                                    {{ formPersonal.religion|as_crispy_field }}
                                 </div>
                                 <div class="col-md-4">
-                                    {{ form.first_name|as_crispy_field }}
+                                    {{ formPersonal.first_name|as_crispy_field }}
                                 </div>
                                 <div class="col-md-4">
-                                    {{ form.middle_name|as_crispy_field }}
+                                    {{ formPersonal.middle_name|as_crispy_field }}
                                 </div>
                                 <div class="col-md-4">
-                                    {{ form.last_name|as_crispy_field }}
+                                    {{ formPersonal.last_name|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.email|as_crispy_field }}
+                                    {{ formPersonal.email|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.phone|as_crispy_field }}
+                                    {{ formPersonal.phone|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.father_name|as_crispy_field }}
+                                    {{ formPersonal.father_name|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.mother_name|as_crispy_field }}
+                                    {{ formPersonal.mother_name|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.spouse_name|as_crispy_field }}
+                                    {{ formPersonal.spouse_name|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.dob|as_crispy_field }}
+                                    {{ formPersonal.dob|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.gender|as_crispy_field }}
+                                    {{ formPersonal.gender|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.blood_group|as_crispy_field }}
+                                    {{ formPersonal.blood_group|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.last_education|as_crispy_field }}
+                                    {{ formPersonal.last_education|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.national_id|as_crispy_field }}
+                                    {{ formPersonal.national_id|as_crispy_field }}
                                 </div>
                                 <input type="button" class="btn btn-primary" id="btnsave" value="Save">
                             </form>
@@ -73,52 +73,43 @@
                             <h2 style="text-align: center" id="pro_emp_name"></h2>
                             <!-- Add professional form fields here -->
                             <h2>Professional Data</h2>
-                            <form method="post" class="row g-3" id="emp_personalForm">
+                            <form method="post" class="row g-3" id="emp_professionalForm">
                                 {% csrf_token %}
                                 <div class="col-md-6">
-                                    {{ form.title|as_crispy_field }}
+                                    {{ formProfessional.department|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.religion|as_crispy_field }}
-                                </div>
-                                <div class="col-md-4">
-                                    {{ form.first_name|as_crispy_field }}
-                                </div>
-                                <div class="col-md-4">
-                                    {{ form.middle_name|as_crispy_field }}
-                                </div>
-                                <div class="col-md-4">
-                                    {{ form.last_name|as_crispy_field }}
+                                    {{ formProfessional.section|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.email|as_crispy_field }}
+                                    {{ formProfessional.employee_id|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.phone|as_crispy_field }}
+                                    {{ formProfessional.pf_no|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.father_name|as_crispy_field }}
+                                    {{ formProfessional.designation|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.mother_name|as_crispy_field }}
+                                    {{ formProfessional.joining_date|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.spouse_name|as_crispy_field }}
+                                    {{ formProfessional.card_no|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.dob|as_crispy_field }}
+                                    {{ formProfessional.overtime|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.gender|as_crispy_field }}
+                                    {{ formProfessional.transport|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.blood_group|as_crispy_field }}
+                                    {{ formProfessional.working_status|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.last_education|as_crispy_field }}
+                                    {{ formProfessional.bank|as_crispy_field }}
                                 </div>
                                 <div class="col-md-6">
-                                    {{ form.national_id|as_crispy_field }}
+                                    {{ formProfessional.confirm_period|as_crispy_field }}
                                 </div>
                                 <input type="button" class="btn btn-primary" id="btnsave" value="Save">
                             </form>

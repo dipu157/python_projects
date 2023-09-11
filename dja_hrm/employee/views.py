@@ -6,13 +6,14 @@ from django.http import JsonResponse
 
 from company.models import Company
 from .models import EmpPersonal, EmpProfessional
-from .forms import EmpPersonalCreateForm
+from .forms import EmpPersonalCreateForm,EmpProfessionalCreateForm
 
 
 class EmployeeHome(LoginRequiredMixin,View):
     def get(self, request):
-        form = EmpPersonalCreateForm()
-        return render(request, "employee/manage_employee.html", {'form': form})
+        formPersonal = EmpPersonalCreateForm()
+        formProfessional = EmpProfessionalCreateForm()
+        return render(request, "employee/manage_employee.html", {'formPersonal': formPersonal, 'formProfessional': formProfessional})
     
 
 class EmployeeData(LoginRequiredMixin, View):
