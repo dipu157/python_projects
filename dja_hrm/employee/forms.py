@@ -8,7 +8,7 @@ class EmpPersonalCreateForm(forms.ModelForm):
                   'phone', 'father_name', 'mother_name', 'spouse_name', 'dob', 'gender', 'blood_group', 
                   'last_education', 'national_id']
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'id': 'titleid'}),
+            'title': forms.Select(attrs={'class': 'form-control', 'id': 'titleid'}),
             'religion': forms.Select(attrs={'class': 'form-control', 'id': 'religionid'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'id': 'first_nameid'}),
             'middle_name': forms.TextInput(attrs={'class': 'form-control', 'id': 'middle_nameid'}),

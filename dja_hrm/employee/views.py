@@ -38,3 +38,19 @@ class EmployeeData(LoginRequiredMixin, View):
             return JsonResponse(data, safe=False)
         else:
             return JsonResponse({'message': 'No Record Found in Database'})
+        
+class save_personalData(View):
+    def post(self, request):
+        personid = request.POST.get('personalid', '')
+        form = EmpPersonalCreateForm(request.POST or None, instance=None if personid == '' else EmpPersonal.objects.get(id=personid))
+        loggedInUserCompany = request.user.profile.company
+        
+        if form.is_valid():
+            personal = form.save(commit=False)
+            personal.user = request.user
+            personal.company = loggedInUserCompany
+            personal.save()
+
+            return JsonResponse({'status': 'save'})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
