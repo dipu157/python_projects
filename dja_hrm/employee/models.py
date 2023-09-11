@@ -6,6 +6,25 @@ from department.models import Department, Section
 from designation.models import Designation
 
 class EmpPersonal(models.Model):
+
+    GENDER_CHOICES = (
+        ('', 'Select One'),
+        ('m', 'Male'),
+        ('f', 'Female'),
+    )
+
+    BLOOD_GROUP_CHOICES = (
+        ('', 'Select One'),
+        ('O+', 'O Positive'),
+        ('O-', 'O Negative'),
+        ('A+', 'A Positive'),
+        ('A-', 'A Negative'),
+        ('B+', 'B Positive'),
+        ('B-', 'B Negative'),
+        ('AB+', 'AB Positive'),
+        ('AB-', 'AB Negative'),
+    )
+    
     company = models.ForeignKey(Company, on_delete=models.RESTRICT)
     title = models.ForeignKey(Title, on_delete=models.RESTRICT)
     religion = models.ForeignKey(Religion, on_delete=models.RESTRICT)

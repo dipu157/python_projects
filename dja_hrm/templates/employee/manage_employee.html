@@ -11,7 +11,7 @@
         <!--breadcrumb-->
         <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
             <div class="breadcrumb-title pe-3">Employee</div>
-            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addDesignationModal">
+            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
                 <i class="bx bxs-plus-square"></i>Add Employee</button></div>
         </div>
         <!--end breadcrumb-->
@@ -42,8 +42,7 @@
             </div>
         </div>
 
-        {% include "employee/modal/edd_emp_personal.html" %}
-        {% include "employee/modal/edd_emp_professional.html" %}
+        {% include "employee/modal/add_employee.html" %}
 
     </div>
 </div>

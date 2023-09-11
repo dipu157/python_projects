@@ -1,0 +1,239 @@
+{% load crispy_forms_tags %}
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="modal-new-employee-label"
+     aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-info modal-lg modal-dialog-scrollable">
+        
+            <div class="modal-content">
+                <!--Header-->
+                <div class="modal-header" style="background-color: #17A2B8;">
+                    <p class="heading">New Employee Information</p>
+                </div>
+
+                <!--Body-->
+                <div class="modal-body">
+                    <div class="wrapper">
+                        <ul class="tabs clearfix" data-tabgroup="first-tab-group">
+                            <li><a href="#tab1" class="active">Personal</a></li>
+                            <li><a href="#tab2">Professional</a></li>
+                        </ul>
+
+                        <section id="first-tab-group" class="tabgroup">
+
+                            <div id="tab1">
+
+                                <h2>Personal Data</h2>
+                                <form method="post" class="row g-3" id="emp_personalForm">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="emp_personalid" id="emp_personalid" />
+                                    {{ form|crispy }}
+                                    <input type="button" class="btn btn-primary" id="btnsave" value="Save">
+                                </form>
+                                    
+                            </div>
+
+
+                            <div id="tab2">
+
+                                <h2 style="text-align: center" id="pro_emp_name"></h2>
+
+                            </div>
+
+                        </section>
+                    </div>
+                </div>
+
+                <div class="modal-footer justify-content-center">
+                    <a type="button" class="btn btn-danger waves-effect" data-bs-dismiss="modal">Cancel</a>
+                </div>
+
+
+
+            </div>
+            <!--/.Content-->
+    </div>
+</div>
+<!-- Modal: modalAbandonedCart-->
+
+<script>
+
+
+
+
+
+    $('.tabgroup > div').hide();
+    $('.tabgroup > div:first-of-type').show();
+    $('.tabs a').click(function(e){
+        e.preventDefault();
+        var $this = $(this),
+            tabgroup = '#'+$this.parents('.tabs').data('tabgroup'),
+            others = $this.closest('li').siblings().children('a'),
+            target = $this.attr('href');
+        others.removeClass('active');
+        $this.addClass('active');
+        $(tabgroup).children('div').hide();
+        $(target).show();
+
+    });
+
+    $('.custom-image-file-input').on('change',function(){
+        var fileName = document.getElementById("emp_image").files[0].name;
+        $(this).next('.form-control-image-file').addClass("selected").html(fileName);
+    });
+
+    $('.custom-sign-file-input').on('change',function(){
+        var fileName = document.getElementById("emp_sign").files[0].name;
+        $(this).next('.form-control-sign-file').addClass("selected").html(fileName);
+    });
+
+    function name_validation(uid_len,mx,my,r_input)
+    {
+        // var uid_len = uid.value.length;
+        if (uid_len == 0 || uid_len >= my || uid_len < mx)
+        {
+            alert(r_input+ " should not be empty / length be between "+mx+" to "+my);
+            // uid.focus();
+            return false;
+        }else
+        return true;
+    }
+
+
+    $(document).on('click', '.btn-personal', function (e) {
+        e.preventDefault();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        var url = 'personal/save';
+
+        // confirm then
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+
+            data: {method: '_POST', submit: true,
+                title_id:$('#title_id').val(),
+                first_name:$('#first_name').val(),
+                middle_name:$('#middle_name').val(),
+                last_name:$('#last_name').val(),
+                email:$('#email').val(),
+                pr_address:$('#pr_address').val(),
+                pr_district:$('#pr_district').val(),
+                pr_police_station:$('#pr_police_station').val(),
+                pr_post_code:$('#pr_post_code').val(),
+                biography:$('#biography').val(),
+                blood_group:$('#blood_group').val(),
+                dob:$('#dob').val(),
+                religion_id:$('#religion_id').val(),
+                father_name:$('#father_name').val(),
+                last_education:$('#last_education').val(),
+                education_year:$('#education_year').val(),
+                gender:$('#gender').val(),
+                mobile:$('#mobile').val(),
+                mother_name:$('#mother_name').val(),
+                spouse_name:$('#spouse_name').val(),
+                m_address:$('#m_address').val(),
+                m_district:$('#m_district').val(),
+
+                m_police_station:$('#m_police_station').val(),
+                marital_status:$('#marital_status').val(),
+                emergency_contact:$('#emergency_contact').val(),
+                m_post_code:$('#m_post_code').val(),
+                national_id:$('#national_id').val(),
+                phone:$('#phone').val(),
+                pm_address:$('#pm_address').val(),
+                pm_police_station:$('#pm_police_station').val(),
+                pm_district:$('#pm_district').val(),
+                pm_post_code:$('#pm_post_code').val(),
+                prof_speciality:$('#prof_speciality').val(),
+                action:$('#action').val(),
+            },
+
+            error: function (request, status, error) {
+                alert(request.responseText);
+            },
+
+            success: function (data) {
+
+                alert('Employee Personal Information Added');
+
+                $("input[type=text], textarea").val("");
+
+                document.getElementById('pro_emp_name').innerText='Enter Professional Data For : ' + data.full_name;
+                document.getElementById('emp_personals_id').value= data.id;
+                document.getElementById('per_emp_id').innerText= data.id;
+
+
+
+                $('#employees-table').DataTable().draw(false);
+
+            }
+
+        });
+    });
+
+
+    $(document).on('click', '.btn-official', function (e) {
+        e.preventDefault();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        var url = 'professional/save';
+
+        // confirm then
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+
+            data: {method: '_POST', submit: true,
+                confirm_period:$('#confirm_period').val(),
+                confirm_probation:$('#confirm_probation:checked').val(),
+                designation_id:$('#designation_id').val(),
+                employee_id:$('#employee_id').val(),
+                emp_personals_id:$('#emp_personals_id').val(),
+                joining_date:$('#joining_date').val(),
+                pf_no:$('#pf_no').val(),
+                section_id:$('#section_id').val(),
+                action:$('#official').val(),
+            },
+
+            error: function (request, status, error) {
+                alert(request.responseText);
+            },
+
+            success: function (data) {
+
+                $("input[type=text], textarea").val("");
+
+                alert('Employee Professional Information Added');
+
+                // document.getElementById('edu_emp_name').innerText='Enter Education Data For : ' + data.full_name;
+
+                $('#employees-table').DataTable().draw(false);
+                $('#modal-new-employee').modal('hide');
+
+            }
+
+        });
+    });
+
+
+    $("input").on("change", function() {
+        this.setAttribute(
+            "data-date",
+            moment(this.value, "YYYY-MM-DD")
+                .format( this.getAttribute("data-date-format") )
+        )
+    }).trigger("change")
+
+
+</script>
