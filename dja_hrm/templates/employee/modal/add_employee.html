@@ -29,6 +29,7 @@
                                         {{ formPersonal.last_name|as_crispy_field }}
                                         {{ formPersonal.email|as_crispy_field }}
                                         {{ formPersonal.phone|as_crispy_field }}
+                                        {{ formPersonal.photo|as_crispy_field }}
                                         {{ formPersonal.father_name|as_crispy_field }}
                                         {{ formPersonal.mother_name|as_crispy_field }}
                                     </div>
@@ -38,8 +39,11 @@
                                         {{ formPersonal.gender|as_crispy_field }}
                                         {{ formPersonal.dob|as_crispy_field }}
                                         {{ formPersonal.blood_group|as_crispy_field }}
+                                        {{ formPersonal.mobile|as_crispy_field }}
+                                        {{ formPersonal.signature|as_crispy_field }}
                                         {{ formPersonal.last_education|as_crispy_field }}
                                         {{ formPersonal.national_id|as_crispy_field }}
+                                        {{ formPersonal.biography|as_crispy_field }}
                                     </div>
                                 </div>
                                 <input type="button" class="btn btn-primary" id="btnpersonalsave" value="Save">
@@ -53,6 +57,7 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-md-6">
+                                        {{ formProfessional.emp_personal|as_crispy_field }}
                                         {{ formProfessional.pf_no|as_crispy_field }}
                                         {{ formProfessional.department|as_crispy_field }}
                                         {{ formProfessional.section|as_crispy_field }}

@@ -5,7 +5,7 @@ class EmpPersonalCreateForm(forms.ModelForm):
     class Meta:
         model = EmpPersonal
         fields = ['title', 'religion', 'first_name', 'middle_name', 'last_name', 'photo', 'signature', 'email', 
-                  'phone', 'father_name', 'mother_name', 'spouse_name', 'dob', 'gender', 'blood_group', 
+                  'phone','mobile','biography', 'father_name', 'mother_name', 'spouse_name', 'dob', 'gender', 'blood_group', 
                   'last_education', 'national_id']
         widgets = {
             'title': forms.Select(attrs={'class': 'form-control', 'id': 'titleid'}),

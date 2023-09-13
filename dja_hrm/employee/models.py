@@ -81,8 +81,7 @@ class EmpProfessional(models.Model):
         ('6', 'Six Month'),
         ('12', 'One Year'),
     )
-
-
+    
     company = models.ForeignKey(Company, on_delete=models.RESTRICT)
     emp_personal = models.ForeignKey(EmpPersonal, on_delete=models.RESTRICT)
     department = models.ForeignKey(Department, on_delete=models.RESTRICT)
