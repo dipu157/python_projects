@@ -42,7 +42,10 @@
                                         {{ formPersonal.mobile|as_crispy_field }}
                                         {{ formPersonal.signature|as_crispy_field }}
                                         {{ formPersonal.last_education|as_crispy_field }}
-                                        {{ formPersonal.national_id|as_crispy_field }}
+                                        {{ formPersonal.national_id|as_crispy_field }}                                        
+                                    </div>
+                                    
+                                    <div class="col-md-12">
                                         {{ formPersonal.biography|as_crispy_field }}
                                     </div>
                                 </div>
@@ -63,15 +66,15 @@
                                         {{ formProfessional.section|as_crispy_field }}
                                         {{ formProfessional.employee_id|as_crispy_field }}
                                         {{ formProfessional.designation|as_crispy_field }}
-                                        {{ formProfessional.working_status|as_crispy_field }}
+                                        
                                     </div>
                                     <div class="col-md-6">
                                         {{ formProfessional.joining_date|as_crispy_field }}
-                                        {{ formProfessional.card_no|as_crispy_field }}
                                         {{ formProfessional.overtime|as_crispy_field }}
                                         {{ formProfessional.transport|as_crispy_field }}
                                         {{ formProfessional.bank|as_crispy_field }}
                                         {{ formProfessional.confirm_period|as_crispy_field }}
+                                        {{ formProfessional.working_status|as_crispy_field }}
                                     </div>
                                 </div>
                                 <input type="button" class="btn btn-primary" id="btnprofessionalsave" value="Save">

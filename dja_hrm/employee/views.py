@@ -49,6 +49,11 @@ class save_personalData(View):
             personal = form.save(commit=False)
             personal.user = request.user
             personal.company = loggedInUserCompany
+            
+            full_name_parts = [personal.first_name, personal.middle_name, personal.last_name]
+            full_name = ' '.join(part for part in full_name_parts if part)
+            personal.full_name = full_name
+            
             personal.save()
 
             return JsonResponse({'status': 'save'})

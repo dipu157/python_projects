@@ -2,11 +2,15 @@ from django import forms
 from .models import EmpPersonal,EmpProfessional
 
 class EmpPersonalCreateForm(forms.ModelForm):
+    
+    full_name = forms.CharField(required=False, widget=forms.HiddenInput())
+    
     class Meta:
         model = EmpPersonal
         fields = ['title', 'religion', 'first_name', 'middle_name', 'last_name', 'photo', 'signature', 'email', 
                   'phone','mobile','biography', 'father_name', 'mother_name', 'spouse_name', 'dob', 'gender', 'blood_group', 
                   'last_education', 'national_id']
+        
         widgets = {
             'title': forms.Select(attrs={'class': 'form-control', 'id': 'titleid'}),
             'religion': forms.Select(attrs={'class': 'form-control', 'id': 'religionid'}),
@@ -23,9 +27,10 @@ class EmpPersonalCreateForm(forms.ModelForm):
             'blood_group': forms.Select(choices=EmpPersonal.BLOOD_GROUP_CHOICES, attrs={'class': 'form-control', 'id': 'blood_groupid'}),
             'last_education': forms.TextInput(attrs={'class': 'form-control', 'id': 'last_educationid'}),    
             'national_id': forms.TextInput(attrs={'class': 'form-control', 'id': 'nationalidid'}),
+            'biography': forms.Textarea(attrs={'class': 'form-control', 'rows': 3, 'id': 'biographyid'})
         }
-
-
+        
+        
 class EmpProfessionalCreateForm(forms.ModelForm):
     class Meta:
         model = EmpProfessional
