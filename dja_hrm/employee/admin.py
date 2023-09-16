@@ -3,7 +3,7 @@ from .models import EmpPersonal, EmpProfessional
 
 @admin.register(EmpPersonal)
 class EmpPersonalAdmin(admin.ModelAdmin):
-    list_display = ['title','full_name', 'email','mobile', 'religion','dob','blood_group']
+    list_display = ['title','photo','full_name', 'email','mobile', 'religion','dob','blood_group']
     search_fields = ['full_name', 'religion','blood_group']
     exclude = ['user'] 
 
