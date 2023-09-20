@@ -59,7 +59,7 @@
                             <form method="post" class="row g-3" id="emp_professionalForm">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <input type="hidden" name="emp_personal" id="emp_personal" />
+                                    <input type="text" name="emp_personal" id="emp_personal" />
                                     <div class="col-md-6">
                                         {{ formProfessional.pf_no|as_crispy_field }}
                                         {{ formProfessional.department|as_crispy_field }}

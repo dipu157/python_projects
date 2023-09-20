@@ -55,10 +55,10 @@
 <script>
 
 $(document).ready(function() {
-   // Get All Designation function call
+   // Get All Employee function call
     fetchAllEmployees();
 
-    // Get All Designation function
+    // Get All Employee function
     function fetchAllEmployees() {
         axios.get("employeedata/")
             .then(function (res) {
@@ -107,10 +107,34 @@ $(document).ready(function() {
                 }
             }
         });
-
-
-
         });
+
+        $("#btnprofessionalsave").click(function(e){
+            e.preventDefault();
+            console.log("Save Professional Button Clicked !");
+    
+            let form = $("#emp_professionalForm")[0];
+            let formData = new FormData(form);
+    
+    
+            $.ajax({
+                url: "{% url 'createEmpProfessional' %}",
+                method: "POST",
+                data: formData,
+                dataType: "json",
+                processData: false, // Important: prevent jQuery from processing the data
+                contentType: false, // Important: let the browser set the content type
+                success: function(data){
+                    if(data.status == "save"){
+                        toastr.success('Professional Data Save Successfully'); 
+                        fetchAllEmployees();
+                        $("#addEmployeeModal").modal('hide');
+                    }else if(data.status == "error"){
+                        toastr.error('Data Save Error');
+                    }
+                }
+            });
+            });
 });
 </script>
 

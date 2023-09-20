@@ -102,7 +102,7 @@ class EmpProfessional(models.Model):
     working_status = models.ForeignKey(Working_Status, on_delete=models.RESTRICT)
     confirm_probation = models.CharField(max_length=1, default='P')
     confirm_period = models.PositiveIntegerField(default=0)
-    bank = models.ForeignKey(Bank, on_delete=models.RESTRICT)
+    bank = models.ForeignKey(Bank, null=True, on_delete=models.RESTRICT)
     bank_acc_no = models.CharField(max_length=17, null=True, blank=True)
     status_change_date = models.DateField(null=True, blank=True)
     status = models.BooleanField(default=True)

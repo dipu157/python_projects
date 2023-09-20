@@ -35,7 +35,7 @@ class EmpProfessionalCreateForm(forms.ModelForm):
     class Meta:
         model = EmpProfessional
         fields = ['emp_personal', 'department', 'section', 'employee_id', 'pf_no', 'designation', 
-                  'joining_date', 'card_no', 'overtime', 'transport', 'working_status', 'confirm_period', 'bank']
+                  'joining_date', 'card_no', 'overtime', 'transport', 'working_status', 'confirm_period']
         widgets = {
             'department': forms.Select(attrs={'class': 'form-control', 'id': 'departmentid'}),
             'section': forms.Select(attrs={'class': 'form-control', 'id': 'sectionid'}),
