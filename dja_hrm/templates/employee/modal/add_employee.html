@@ -59,8 +59,8 @@
                             <form method="post" class="row g-3" id="emp_professionalForm">
                                 {% csrf_token %}
                                 <div class="row">
+                                    <input type="hidden" name="emp_personal" id="emp_personal" />
                                     <div class="col-md-6">
-                                        {{ formProfessional.emp_personal|as_crispy_field }}
                                         {{ formProfessional.pf_no|as_crispy_field }}
                                         {{ formProfessional.department|as_crispy_field }}
                                         {{ formProfessional.section|as_crispy_field }}
@@ -72,7 +72,6 @@
                                         {{ formProfessional.joining_date|as_crispy_field }}
                                         {{ formProfessional.overtime|as_crispy_field }}
                                         {{ formProfessional.transport|as_crispy_field }}
-                                        {{ formProfessional.bank|as_crispy_field }}
                                         {{ formProfessional.confirm_period|as_crispy_field }}
                                         {{ formProfessional.working_status|as_crispy_field }}
                                     </div>

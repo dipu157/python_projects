@@ -56,6 +56,6 @@ class save_personalData(View):
             
             personal.save()
 
-            return JsonResponse({'status': 'save'})
+            return JsonResponse({'status': 'save', 'id': personal.id})
         else:
             return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})

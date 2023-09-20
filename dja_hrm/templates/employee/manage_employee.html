@@ -100,11 +100,16 @@ $(document).ready(function() {
             success: function(data){
                 if(data.status == "save"){
                     toastr.success('Personal Data Save Successfully'); 
+                    console.log(data.id);
+                    document.getElementById('emp_personal').value= data.id;
                 }else if(data.status == "error"){
                     toastr.error('Personal Data Save Error');
                 }
             }
         });
+
+
+
         });
 });
 </script>

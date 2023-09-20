@@ -37,7 +37,6 @@ class EmpProfessionalCreateForm(forms.ModelForm):
         fields = ['emp_personal', 'department', 'section', 'employee_id', 'pf_no', 'designation', 
                   'joining_date', 'card_no', 'overtime', 'transport', 'working_status', 'confirm_period', 'bank']
         widgets = {
-            'emp_personal': forms.Select(attrs={'class': 'form-control', 'id': 'emp_personalid'}),
             'department': forms.Select(attrs={'class': 'form-control', 'id': 'departmentid'}),
             'section': forms.Select(attrs={'class': 'form-control', 'id': 'sectionid'}),
             'employee_id': forms.TextInput(attrs={'class': 'form-control', 'id': 'employeeid_id'}),
