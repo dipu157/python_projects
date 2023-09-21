@@ -31,7 +31,7 @@ class EmployeeData(LoginRequiredMixin, View):
                 'Joining_Date': employee.joining_date,
                 'Working_Status': employee.working_status.name,
                 'Action': f'<a class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal" data-empid="{employee.id}">Edit</a>'
-                          f'<a class="ms-3 btn-danger btn btn-sm btn-delete" data-empid="{employee.id}">DEL</a>'
+                          f'<a class="ms-3 btn-danger btn btn-sm btn-delete" data-empid="{employee.emp_personal_id}">DEL</a>'
             })
 
         if data:
@@ -82,12 +82,12 @@ class save_professionalData(View):
 class DeleteEmployee(View):
     def delete(self, request, employee_id):
         try:
-            employeeProfessional = EmpProfessional.objects.get(emp_personal=employee_id)
+            employeeProfessional = EmpProfessional.objects.get(emp_personal_id=employee_id)
             employeePersonal = EmpPersonal.objects.get(id=employee_id)
             employeeProfessional.delete()
             employeePersonal.delete()
             return JsonResponse({"status": "success"})
         except employeePersonal.DoesNotExist:
-            return JsonResponse({"status": "error", "message": "Emp Personal does not exist"})
+            return JsonResponse({"status": "error", "message": "Employee does not exist"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})

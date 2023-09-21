@@ -141,6 +141,7 @@ $(document).ready(function() {
     $("#employeeTableId").on("click", ".btn-delete", function(e) {
         e.preventDefault();
         var empId = $(this).data("empid");
+        console.log("delete Id:"+empId);
 
         Swal.fire({
 			title: 'Are you sure?',
