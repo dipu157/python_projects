@@ -22,8 +22,13 @@ class EmployeeData(LoginRequiredMixin, View):
         data = []
 
         for counter, employee in enumerate(employees, start=1):
+            # if employees.emp_personal.photo:
+            #     photo_url = request.build_absolute_uri(employees.emp_personal.photo.url)
+            # else:
+            #     photo_url = ''
             data.append({
                 'ID': counter,
+                #'Photo': photo_url,
                 'FullName': employee.emp_personal.full_name,
                 'EmpId': employee.employee_id,
                 'Department': employee.department.name,

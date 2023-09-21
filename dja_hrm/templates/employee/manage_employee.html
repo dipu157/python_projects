@@ -26,6 +26,7 @@
                         <thead>
                           <tr>
                             <th>ID</th>
+                            <th>Photo</th>
                             <th>Name</th>
                             <th>Employee Id</th>
                             <th>Department</th>
@@ -68,6 +69,12 @@ $(document).ready(function() {
                     data: res.data,
                     columns: [
                         { data: 'ID' },
+                        {
+                            "data": "Photo",
+                            "render": function(data) {
+                              return '<img src="' + data + '" alt="employee Photo" width="60" height="60">';
+                              }
+                        },
                         { data: 'FullName' },
                         { data: 'EmpId' },
                         { data: 'Department' },
