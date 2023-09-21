@@ -100,6 +100,8 @@ class EditEmployee(View):
     def get(self, request, employee_id):
         try:
             employee = EmpPersonal.objects.get(id=employee_id)
+            employeeProf = EmpProfessional.objects.get(emp_personal_id=employee_id)
+            print(employeeProf)
             data = {
                 "id": employee.id,
                 "title": employee.title.id,
@@ -119,23 +121,21 @@ class EditEmployee(View):
                 "last_education": employee.last_education,
                 "national_id": employee.national_id,
                 "biography": employee.biography,
-            }
-            
-            employeeProf = employeeProf.objects.get(emp_personal_id=employee_id)
-            data1 = {
-                "id": employeeProf.id,
+                
+                "pf_no": employeeProf.pf_no,
                 "department": employeeProf.department.id,
                 "section": employeeProf.section.id,
                 "employee_id": employeeProf.employee_id,      
-                "designation": employeeProf.designation,      
+                "designation": employeeProf.designation.id,      
                 "joining_date": employeeProf.joining_date,      
                 "card_no": employeeProf.card_no,      
                 "overtime": employeeProf.overtime,      
                 "transport": employeeProf.transport,      
                 "working_status": employeeProf.working_status.id,      
                 "confirm_period": employeeProf.confirm_period,
+                "emp_personal_id": employeeProf.emp_personal_id,
             }
-            
+             
             return JsonResponse(data)
         except EmpPersonal.DoesNotExist:
             return JsonResponse({"error": "Employee does not exist"})

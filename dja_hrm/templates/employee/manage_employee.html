@@ -185,7 +185,9 @@ $(document).ready(function() {
         axios.get("edit_employee/" + empId + "/")
         .then(function(response) {
             var data = response.data;
+            var data1 = response.data1;
             console.log(data);
+            console.log(data1);
             $("#emp_personal_id").val(data.id);
             $("#titleid").val(data.title);
             $("#religionid").val(data.religion);            
@@ -206,7 +208,7 @@ $(document).ready(function() {
             
             $("#btnpersonalsave").val("Update");
 
-            $("#emp_personal").val(data.id);
+            $("#emp_personal").val(data.emp_personal_id);
             $("#departmentid").val(data.department);
             $("#sectionid").val(data.section);            
             $("#employeeid_id").val(data.employee_id);
@@ -218,8 +220,8 @@ $(document).ready(function() {
             $("#transportid").val(data.transport);
             $("#working_statusid").val(data.working_status);
             $("#cperiodid").val(data.confirm_period);
-           
-            $("#btnprofessionalsave").val("Update");
+
+
         })
         .catch(function(error) {
             console.error("Failed to edit bank:", error);
