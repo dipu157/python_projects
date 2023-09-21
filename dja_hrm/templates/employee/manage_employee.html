@@ -128,6 +128,7 @@ $(document).ready(function() {
                     if(data.status == "save"){
                         toastr.success('Professional Data Save Successfully'); 
                         fetchAllEmployees();
+                        form.reset();
                         $("#addEmployeeModal").modal('hide');
                     }else if(data.status == "error"){
                         toastr.error('Data Save Error');
@@ -135,6 +136,41 @@ $(document).ready(function() {
                 }
             });
             });
+
+                // Delete Data
+    $("#employeeTableId").on("click", ".btn-delete", function(e) {
+        e.preventDefault();
+        var empId = $(this).data("empid");
+
+        Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		if (result.isConfirmed) {
+			axios.defaults.xsrfHeaderName = "X-CSRFToken";
+            axios.defaults.xsrfCookieName = "csrftoken";
+            axios.delete("delete_employee/" + empId + "/")
+            .then(function(response) {
+                console.log(response);
+                if(response.status == 200){
+                    toastr.success('Employee Deleted successfully');
+                    fetchAllEmployees();
+                }else{
+                    toastr.error('Employee Deleted Failed');
+                    fetchAllEmployees();
+                }
+            })
+            .catch(function(error) {
+                console.error("Failed to Delete Employee:", error);
+            });
+            }
+		})        
+    });
 });
 </script>
 
