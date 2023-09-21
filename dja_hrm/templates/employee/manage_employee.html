@@ -18,7 +18,8 @@
       
         <div class="card">
             <div class="card-body">
-                <div class="d-lg-flex align-items-center mb-4 gap-3">                  
+                <div class="d-lg-flex align-items-center mb-4 gap-3">  
+                    <div id="error-messages" style="color: red;"></div>                
                 </div>
                 <div class="table-responsive" id="employeeTableId">
                     <table id="employeeTable" class="table table-striped table-bordered" style="width:100%">
@@ -103,7 +104,7 @@ $(document).ready(function() {
                     console.log(data.id);
                     document.getElementById('emp_personal').value= data.id;
                 }else if(data.status == "error"){
-                    toastr.error('Personal Data Save Error');
+                    toastr.error('Personal Data Save Error' + data.message);
                 }
             }
         });
@@ -115,8 +116,9 @@ $(document).ready(function() {
     
             let form = $("#emp_professionalForm")[0];
             let formData = new FormData(form);
-    
-    
+
+            console.log(formData);
+        
             $.ajax({
                 url: "{% url 'createEmpProfessional' %}",
                 method: "POST",
@@ -131,7 +133,8 @@ $(document).ready(function() {
                         form.reset();
                         $("#addEmployeeModal").modal('hide');
                     }else if(data.status == "error"){
-                        toastr.error('Data Save Error');
+                        console.log(data.message);
+                        toastr.error('Data Save Error' + data.message);
                     }
                 }
             });
@@ -172,6 +175,58 @@ $(document).ready(function() {
             }
 		})        
     });
+
+    // Edit Button Clicked
+    $("#employeeTableId").on("click", ".btn-edit", function(e) {
+        e.preventDefault();
+        var empId = $(this).data("empid");
+        console.log("Edit button clicked for Emp ID:", empId);
+
+        axios.get("edit_employee/" + empId + "/")
+        .then(function(response) {
+            var data = response.data;
+            console.log(data);
+            $("#emp_personal_id").val(data.id);
+            $("#titleid").val(data.title);
+            $("#religionid").val(data.religion);            
+            $("#first_nameid").val(data.first_name);
+            $("#middle_nameid").val(data.middle_name);
+            $("#last_nameid").val(data.last_name);
+            $("#emailid").val(data.email);
+            $("#phoneid").val(data.phone);
+            $("#mobileid").val(data.mobile);
+            $("#father_nameid").val(data.father_name);
+            $("#mother_nameid").val(data.mother_name);
+            $("#spouse_nameid").val(data.spouse_name);
+            $("#dobid").val(data.dob);
+            $("#genderid").val(data.gender);
+            $("#blood_groupid").val(data.blood_group);
+            $("#last_educationid").val(data.last_education);
+            $("#nationalidid").val(data.national_id);
+            
+            $("#btnpersonalsave").val("Update");
+
+            $("#emp_personal").val(data.id);
+            $("#departmentid").val(data.department);
+            $("#sectionid").val(data.section);            
+            $("#employeeid_id").val(data.employee_id);
+            $("#pf_noid").val(data.pf_no);
+            $("#designationid").val(data.designation);
+            $("#joining_dateid").val(data.joining_date);
+            $("#card_noid").val(data.card_no);
+            $("#overtimeid").val(data.overtime);
+            $("#transportid").val(data.transport);
+            $("#working_statusid").val(data.working_status);
+            $("#cperiodid").val(data.confirm_period);
+           
+            $("#btnprofessionalsave").val("Update");
+        })
+        .catch(function(error) {
+            console.error("Failed to edit bank:", error);
+        });
+    });
+
+
 });
 </script>
 

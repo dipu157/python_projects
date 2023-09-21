@@ -19,6 +19,7 @@ class EmpPersonalCreateForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control', 'id': 'last_nameid'}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'id': 'emailid'}),
             'phone': forms.TextInput(attrs={'class': 'form-control', 'id': 'phoneid'}),   
+            'mobile': forms.TextInput(attrs={'class': 'form-control', 'id': 'mobileid'}),   
             'father_name': forms.TextInput(attrs={'class': 'form-control', 'id': 'father_nameid'}),
             'mother_name': forms.TextInput(attrs={'class': 'form-control', 'id': 'mother_nameid'}),
             'spouse_name': forms.TextInput(attrs={'class': 'form-control', 'id': 'spouse_nameid'}), 

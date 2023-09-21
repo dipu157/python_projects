@@ -9,5 +9,5 @@ urlpatterns = [
     path('createEmpPersonal/', save_personalData.as_view(), name='createEmpPersonal'),
     path('createEmpProfessional/', save_professionalData.as_view(), name='createEmpProfessional'),
     path('delete_employee/<int:employee_id>/', DeleteEmployee.as_view(), name='delete_employee'),
-    # path('edit_designation/<int:designation_id>/', EditDesignation.as_view(), name='edit_designation'),
+    path('edit_employee/<int:employee_id>/', EditEmployee.as_view(), name='edit_employee'),
 ]

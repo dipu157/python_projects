@@ -71,9 +71,8 @@ class EmpPersonal(models.Model):
 class EmpProfessional(models.Model):
 
     BOOL_CHOICES = (
-        ('', 'Select One'),
-        ('1', 'Yes'),
         ('0', 'No'),
+        ('1', 'Yes'),
     )
 
     CONFIRMPERIOD_CHOICES = (

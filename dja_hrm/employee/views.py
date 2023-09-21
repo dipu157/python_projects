@@ -30,7 +30,7 @@ class EmployeeData(LoginRequiredMixin, View):
                 'Designation': employee.designation.name,
                 'Joining_Date': employee.joining_date,
                 'Working_Status': employee.working_status.name,
-                'Action': f'<a class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModal" data-empid="{employee.id}">Edit</a>'
+                'Action': f'<a class="btn btn-sm btn-primary btn-edit" data-bs-toggle="modal" data-bs-target="#addEmployeeModal" data-empid="{employee.emp_personal_id}">Edit</a>'
                           f'<a class="ms-3 btn-danger btn btn-sm btn-delete" data-empid="{employee.emp_personal_id}">DEL</a>'
             })
 
@@ -41,7 +41,7 @@ class EmployeeData(LoginRequiredMixin, View):
         
 class save_personalData(View):
     def post(self, request):
-        personid = request.POST.get('personalid', '')
+        personid = request.POST.get('emp_personal', '')
         form = EmpPersonalCreateForm(request.POST or None, instance=None if personid == '' else EmpPersonal.objects.get(id=personid))
         loggedInUserCompany = request.user.profile.company
         
@@ -58,7 +58,9 @@ class save_personalData(View):
 
             return JsonResponse({'status': 'save', 'id': personal.id})
         else:
-            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
+            print(form.errors)
+            errors = form.errors.as_json()
+            return JsonResponse({'status': 'error','errors': 'errors' , 'message': 'Form data is invalid'})
         
 class save_professionalData(View):
     def post(self, request):
@@ -76,7 +78,8 @@ class save_professionalData(View):
             return JsonResponse({'status': 'save'})
         else:
             print(form.errors)
-            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
+            errors = form.errors.as_json()
+            return JsonResponse({'status': 'error','errors': 'errors' ,'message': 'Form data is invalid'})
 
 
 class DeleteEmployee(View):
@@ -91,3 +94,50 @@ class DeleteEmployee(View):
             return JsonResponse({"status": "error", "message": "Employee does not exist"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
+        
+
+class EditEmployee(View):
+    def get(self, request, employee_id):
+        try:
+            employee = EmpPersonal.objects.get(id=employee_id)
+            data = {
+                "id": employee.id,
+                "title": employee.title.id,
+                "religion": employee.religion.id,
+                "first_name": employee.first_name,      
+                "middle_name": employee.middle_name,      
+                "last_name": employee.last_name,      
+                "email": employee.email,      
+                "phone": employee.phone,      
+                "mobile": employee.mobile,      
+                "father_name": employee.father_name,      
+                "mother_name": employee.mother_name,      
+                "spouse_name": employee.spouse_name, 
+                "dob": employee.dob,
+                "gender": employee.gender,
+                "blood_group": employee.blood_group,
+                "last_education": employee.last_education,
+                "national_id": employee.national_id,
+                "biography": employee.biography,
+            }
+            
+            employeeProf = employeeProf.objects.get(emp_personal_id=employee_id)
+            data1 = {
+                "id": employeeProf.id,
+                "department": employeeProf.department.id,
+                "section": employeeProf.section.id,
+                "employee_id": employeeProf.employee_id,      
+                "designation": employeeProf.designation,      
+                "joining_date": employeeProf.joining_date,      
+                "card_no": employeeProf.card_no,      
+                "overtime": employeeProf.overtime,      
+                "transport": employeeProf.transport,      
+                "working_status": employeeProf.working_status.id,      
+                "confirm_period": employeeProf.confirm_period,
+            }
+            
+            return JsonResponse(data)
+        except EmpPersonal.DoesNotExist:
+            return JsonResponse({"error": "Employee does not exist"})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})
