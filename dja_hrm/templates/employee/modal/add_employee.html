@@ -22,7 +22,7 @@
                             <form method="post" class="row g-3" id="emp_personalForm">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <input type="text" name="emp_personal" id="emp_personal_id" />
+                                    <input type="text" enctype="multipart/form-data" name="emp_personal" id="emp_personal_id" />
                                     <div class="col-md-6">
                                         {{ formPersonal.title|as_crispy_field }}
                                         {{ formPersonal.first_name|as_crispy_field }}

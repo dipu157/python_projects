@@ -22,13 +22,13 @@ class EmployeeData(LoginRequiredMixin, View):
         data = []
 
         for counter, employee in enumerate(employees, start=1):
-            # if employees.emp_personal.photo:
-            #     photo_url = request.build_absolute_uri(employees.emp_personal.photo.url)
-            # else:
-            #     photo_url = ''
+            if employee.emp_personal.photo:
+                photo_url = request.build_absolute_uri(employee.emp_personal.photo.url)
+            else:
+                photo_url = ''
             data.append({
                 'ID': counter,
-                #'Photo': photo_url,
+                'Photo': photo_url,
                 'FullName': employee.emp_personal.full_name,
                 'EmpId': employee.employee_id,
                 'Department': employee.department.name,
@@ -47,7 +47,7 @@ class EmployeeData(LoginRequiredMixin, View):
 class save_personalData(View):
     def post(self, request):
         personid = request.POST.get('emp_personal', '')
-        form = EmpPersonalCreateForm(request.POST or None, instance=None if personid == '' else EmpPersonal.objects.get(id=personid))
+        form = EmpPersonalCreateForm(request.POST or None, request.FILES or None, instance=None if personid == '' else EmpPersonal.objects.get(id=personid))
         loggedInUserCompany = request.user.profile.company
         
         if form.is_valid():
