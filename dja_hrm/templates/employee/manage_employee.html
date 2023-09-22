@@ -192,12 +192,10 @@ $(document).ready(function() {
         axios.get("edit_employee/" + empId + "/")
         .then(function(response) {
             var data = response.data;
-            var data1 = response.data1;
             console.log(data);
-            console.log(data1);
             $("#emp_personal_id").val(data.id);
-            $("#titleid").val(data.title);
-            $("#religionid").val(data.religion);            
+            $("#titleid").val(data.title).trigger('change');
+            $("#religionid").val(data.religion).trigger('change');;            
             $("#first_nameid").val(data.first_name);
             $("#middle_nameid").val(data.middle_name);
             $("#last_nameid").val(data.last_name);
@@ -208,24 +206,24 @@ $(document).ready(function() {
             $("#mother_nameid").val(data.mother_name);
             $("#spouse_nameid").val(data.spouse_name);
             $("#dobid").val(data.dob);
-            $("#genderid").val(data.gender);
-            $("#blood_groupid").val(data.blood_group);
+            $("#genderid").val(data.gender).trigger('change');;
+            $("#blood_groupid").val(data.blood_group).trigger('change');;
             $("#last_educationid").val(data.last_education);
             $("#nationalidid").val(data.national_id);
             
             $("#btnpersonalsave").val("Update");
 
             $("#emp_personal").val(data.emp_personal_id);
-            $("#departmentid").val(data.department);
-            $("#sectionid").val(data.section);            
+            $("#departmentid").val(data.department).trigger('change');;
+            $("#sectionid").val(data.section).trigger('change');;            
             $("#employeeid_id").val(data.employee_id);
             $("#pf_noid").val(data.pf_no);
-            $("#designationid").val(data.designation);
+            $("#designationid").val(data.designation).trigger('change');;
             $("#joining_dateid").val(data.joining_date);
             $("#card_noid").val(data.card_no);
             $("#overtimeid").val(data.overtime);
             $("#transportid").val(data.transport);
-            $("#working_statusid").val(data.working_status);
+            $("#working_statusid").val(data.working_status).trigger('change');;
             $("#cperiodid").val(data.confirm_period);
 
 
