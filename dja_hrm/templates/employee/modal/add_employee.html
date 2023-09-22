@@ -44,10 +44,16 @@
                                         {{ formPersonal.signature|as_crispy_field }}
                                         {{ formPersonal.last_education|as_crispy_field }}
                                         {{ formPersonal.national_id|as_crispy_field }}                                        
-                                    </div>
-                                    
+                                    </div>                                    
                                     <div class="col-md-12">
                                         {{ formPersonal.biography|as_crispy_field }}
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img id="photoPreview" src="" alt="Emp Image" width="100" height="100">
+                                    </div>
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <img id="signaturePreview" src="" alt="Sign Image" width="100" height="100">
                                     </div>
                                 </div>
                                 <input type="button" class="btn btn-primary" id="btnpersonalsave" value="Save">

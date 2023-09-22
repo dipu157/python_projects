@@ -47,6 +47,7 @@ class EmployeeData(LoginRequiredMixin, View):
 class save_personalData(View):
     def post(self, request):
         personid = request.POST.get('emp_personal', '')
+        print(personid)
         form = EmpPersonalCreateForm(request.POST or None, request.FILES or None, instance=None if personid == '' else EmpPersonal.objects.get(id=personid))
         loggedInUserCompany = request.user.profile.company
         
@@ -64,13 +65,12 @@ class save_personalData(View):
             return JsonResponse({'status': 'save', 'id': personal.id})
         else:
             print(form.errors)
-            errors = form.errors.as_json()
-            return JsonResponse({'status': 'error','errors': 'errors' , 'message': 'Form data is invalid'})
+            return JsonResponse({'status': 'error', 'message': 'Form data is invalid'})
         
 class save_professionalData(View):
     def post(self, request):
-        professionid = request.POST.get('professionid', '')
-        form = EmpProfessionalCreateForm(request.POST or None, instance=None if professionid == '' else EmpProfessional.objects.get(id=professionid))
+        professionid = request.POST.get('emp_personal', '')
+        form = EmpProfessionalCreateForm(request.POST or None, instance=None if professionid == '' else EmpProfessional.objects.get(emp_personal_id=professionid))
         loggedInUserCompany = request.user.profile.company
         
         if form.is_valid():
@@ -83,8 +83,7 @@ class save_professionalData(View):
             return JsonResponse({'status': 'save'})
         else:
             print(form.errors)
-            errors = form.errors.as_json()
-            return JsonResponse({'status': 'error','errors': 'errors' ,'message': 'Form data is invalid'})
+            return JsonResponse({'status': 'error' ,'message': 'Form data is invalid'})
 
 
 class DeleteEmployee(View):
@@ -117,6 +116,8 @@ class EditEmployee(View):
                 "email": employee.email,      
                 "phone": employee.phone,      
                 "mobile": employee.mobile,      
+                "photo": employee.photo.url,      
+                "signature": employee.signature.url,      
                 "father_name": employee.father_name,      
                 "mother_name": employee.mother_name,      
                 "spouse_name": employee.spouse_name, 

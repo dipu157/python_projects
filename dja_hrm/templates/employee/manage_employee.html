@@ -210,6 +210,10 @@ $(document).ready(function() {
             $("#blood_groupid").val(data.blood_group).trigger('change');;
             $("#last_educationid").val(data.last_education);
             $("#nationalidid").val(data.national_id);
+            $("#biographyid").val(data.biography);
+            $("#photoPreview").attr("src", data.photo);
+            $("#signaturePreview").attr("src", data.signature);
+
             
             $("#btnpersonalsave").val("Update");
 
