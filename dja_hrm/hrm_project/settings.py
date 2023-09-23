@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'department.apps.DepartmentConfig',
     'designation.apps.DesignationConfig',
     'employee.apps.EmployeeConfig',
+    'shift.apps.ShiftConfig',
 
     'crispy_forms', 
     'crispy_bootstrap5',
