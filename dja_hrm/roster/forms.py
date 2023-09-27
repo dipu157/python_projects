@@ -4,7 +4,7 @@ from shift.models import Shift
 
 
 
-class ProductCreateForm(forms.ModelForm):
+class RosterCreateForm(forms.ModelForm):
     class Meta:
         model = Roster
         fields = ['r_year','month_id','department', 'employee','day_01','day_02','day_03','day_04','day_05','day_06',

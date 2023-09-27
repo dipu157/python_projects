@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.http import JsonResponse
 
 from company.models import Company
-from .models import EmpPersonal, EmpProfessional
+from employee.models import EmpPersonal, EmpProfessional
 from .forms import RosterCreateForm
 
 
