@@ -10,6 +10,7 @@ urlpatterns = [
     path("department/",include('department.urls')),
     path("designation/",include('designation.urls')),
     path("employee/",include('employee.urls')),
+    path("roster_entry/",include('roster.urls')),
 ]
 
 if settings.DEBUG:
