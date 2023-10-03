@@ -114,4 +114,31 @@ class EmpProfessional(models.Model):
 
     def __str__(self):
         return self.emp_personal.full_name
+  
 
+class EmpEducation(models.Model):
+
+    BOOL_CHOICES = (
+        ('0', 'No'),
+        ('1', 'Yes'),
+    )
+    
+    company = models.ForeignKey(Company, on_delete=models.RESTRICT)
+    emp_personal = models.ForeignKey(EmpPersonal, on_delete=models.RESTRICT)
+    name = models.CharField(max_length=150)
+    description = models.CharField(max_length=300, null=True, blank=True)
+    institution = models.CharField(max_length=200)
+    passing_year = models.CharField(max_length=50)
+    result = models.CharField(max_length=50)
+    degree_type = models.CharField(max_length=50)
+    achive_date = models.DateField(null=True, blank=True)
+    status = models.BooleanField(default=True)
+    user = models.ForeignKey(User, on_delete=models.RESTRICT)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'emp_education'
+
+    def __str__(self):
+        return self.emp_education.name
