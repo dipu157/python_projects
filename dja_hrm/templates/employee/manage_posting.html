@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Employee Posting {% endblock title %}
+
+{% block content %}
+
+
+<!--start page wrapper -->
+<div class="page-wrapper">
+    <div class="page-content">
+        <!--breadcrumb-->
+        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
+            <div class="breadcrumb-title pe-3">Employee Posting</div>
+            <div class="ms-auto"><button class="btn btn-primary radius-30 mt-2 mt-lg-0" data-bs-toggle="modal" data-bs-target="#addEmployeeModal">
+                <i class="bx bxs-plus-square"></i>Add Posting</button></div>
+        </div>
+        <!--end breadcrumb-->
+      
+        <div class="card">
+            <div class="card-body">
+                <div class="d-lg-flex align-items-center mb-4 gap-3">  
+                    <div id="error-messages" style="color: red;"></div>                
+                </div>
+                <div class="table-responsive" id="employeeTableId">
+                    <table id="employeeTable" class="table table-striped table-bordered" style="width:100%">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Report To</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <!-- Table rows dynamically generated in your Django view -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {% include "employee/modal/posting_employee.html" %}
+
+    </div>
+</div>
+<!--end page wrapper -->
+{% endblock content %}

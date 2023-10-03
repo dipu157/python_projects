@@ -3,6 +3,7 @@ from django.views.generic import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.urls import reverse
 
 from company.models import Company
 from .models import EmpPersonal, EmpProfessional
@@ -26,6 +27,11 @@ class EmployeeData(LoginRequiredMixin, View):
                 photo_url = request.build_absolute_uri(employee.emp_personal.photo.url)
             else:
                 photo_url = ''
+
+            # Generate URLs using reverse
+            education_url = reverse('educationdata')
+            posting_url = reverse('postingdata')
+
             data.append({
                 'ID': counter,
                 'Photo': photo_url,
@@ -36,6 +42,8 @@ class EmployeeData(LoginRequiredMixin, View):
                 'Joining_Date': employee.joining_date,
                 'Working_Status': employee.working_status.name,
                 'Action': f'<a class="btn btn-sm btn-primary btn-edit" data-bs-toggle="modal" data-bs-target="#addEmployeeModal" data-empid="{employee.emp_personal_id}">Edit</a>'
+                          f'<a class="ms-3 btn-success btn btn-sm btn-education" href="{education_url}" data-empid="{employee.emp_personal_id}">Education</a>'
+                          f'<a class="ms-3 btn-info btn btn-sm btn-posting" href="{posting_url}" data-empid="{employee.emp_personal_id}">Posting</a>'
                           f'<a class="ms-3 btn-danger btn btn-sm btn-delete" data-empid="{employee.emp_personal_id}">DEL</a>'
             })
 
@@ -147,3 +155,17 @@ class EditEmployee(View):
             return JsonResponse({"error": "Employee does not exist"})
         except Exception as e:
             return JsonResponse({"error": str(e)})
+        
+
+
+class EducationData(LoginRequiredMixin,View):
+    def get(self, request):
+        form = EmpPersonalCreateForm()
+        return render(request, "employee/manage_education.html", {'form': form})
+    
+
+class PostingData(LoginRequiredMixin,View):
+    def get(self, request):
+        form = EmpPersonalCreateForm()
+        return render(request, "employee/manage_posting.html", {'form': form})
+    

@@ -10,4 +10,9 @@ urlpatterns = [
     path('createEmpProfessional/', save_professionalData.as_view(), name='createEmpProfessional'),
     path('delete_employee/<int:employee_id>/', DeleteEmployee.as_view(), name='delete_employee'),
     path('edit_employee/<int:employee_id>/', EditEmployee.as_view(), name='edit_employee'),
+
+    path('educationdata/', EducationData.as_view(), name='educationdata'),
+
+
+    path('postingdata/', PostingData.as_view(), name='postingdata'),
 ]
